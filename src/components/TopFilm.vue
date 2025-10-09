@@ -1,0 +1,172 @@
+<template>
+	<section class="top-film">
+		<div v-if="!loading && movie" class="container top-film__container">
+			<div class="top-film__info">
+				<div class="top-film__info-header">
+					<TheRating :value="movie.tmdbRating" />
+					<span class="top-film__year">{{ movie.releaseYear }}</span>
+					<span class="top-film__genre">{{ movie.genres?.[0] || '—' }}</span>
+					<span class="top-film__duration">{{ formattedRuntime }}</span>
+				</div>
+
+				<RouterLink :to="`/movies/${movie.id}`" class="top-film__name">
+					{{ movie.title }}
+				</RouterLink>
+
+				<p class="top-film__descr">{{ movie.plot }}</p>
+
+				<div class="top-film__controls">
+					<BaseButton variant="blue" size="big" @click="openTrailer">Трейлер</BaseButton>
+					<BaseButton variant="dark" size="big" @click="goToMovie">О фильме</BaseButton>
+
+					<BaseButton
+						variant="dark"
+						size="small"
+						icon="favorite"
+						aria-label="Добавить фильм в избранное"
+					/>
+
+					<BaseButton
+						variant="dark"
+						size="small"
+						icon="change"
+						aria-label="Показать случайный фильм"
+						@click="getRandomMovie"
+					/>
+				</div>
+			</div>
+
+			<div class="top-film__poster">
+				<img
+					:src="movie.backdropUrl ?? placeholder"
+					:alt="movie.title"
+					class="top-film__img"
+					loading="lazy"
+				/>
+			</div>
+		</div>
+
+		<TopFilmSkeleton v-else-if="loading" />
+
+		<div v-else-if="errorRandom" class="top-film__error">
+			<p>{{ errorRandom }}</p>
+			<BaseButton variant="blue" size="big" @click="getRandomMovie(true)"> Повторить </BaseButton>
+		</div>
+	</section>
+</template>
+
+<script setup lang="ts">
+	import { onMounted, computed } from 'vue'
+	import { RouterLink, useRouter } from 'vue-router'
+	import { storeToRefs } from 'pinia'
+	import { useMoviesStore } from '@/stores/useMoviesStore'
+	import TheRating from './ui/TheRating.vue'
+	import BaseButton from './ui/BaseButton.vue'
+	import TopFilmSkeleton from './TopFilmSkeleton.vue'
+	import placeholder from '@/assets/no-poster.png'
+
+	const randomMoviesStore = useMoviesStore()
+	const { randomMovie: movie, loadingRandom: loading, errorRandom } = storeToRefs(randomMoviesStore)
+	const router = useRouter()
+
+	onMounted(() => {
+		randomMoviesStore.fetchRandomMovie()
+	})
+
+	const getRandomMovie = async (force = true) => {
+		await randomMoviesStore.fetchRandomMovie(force)
+	}
+
+	const goToMovie = () => {
+		if (movie.value) router.push(`/movies/${movie.value.id}`)
+	}
+
+	const openTrailer = () => {
+		if (movie.value?.trailerUrl) {
+			window.dispatchEvent(new CustomEvent('open-trailer', { detail: movie.value.trailerUrl }))
+		}
+	}
+
+	const formattedRuntime = computed(() => {
+		const minutes = movie.value?.runtime
+		if (!minutes) return '—'
+		const hours = Math.floor(minutes / 60)
+		const mins = minutes % 60
+		return `${hours > 0 ? `${hours} ч ` : ''}${mins} мин`
+	})
+</script>
+
+<style scoped lang="scss">
+	.top-film {
+		padding-top: 32px;
+		padding-bottom: 40px;
+
+		&__container {
+			display: grid;
+			grid-template-columns: 1fr 680px;
+			align-items: center;
+			gap: 20px;
+		}
+
+		&__info-header {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			margin-bottom: 16px;
+			font-weight: 400;
+			font-size: 18px;
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		&__name {
+			margin-bottom: 16px;
+			font-weight: 700;
+			font-size: 48px;
+			color: #fff;
+			transition: color 0.3s ease-in-out;
+
+			&:hover {
+				color: #b4a9ff;
+			}
+
+			&:focus-within {
+				outline: 1px solid #b4a9ff;
+				outline-offset: 1px;
+				border-radius: 2px;
+			}
+		}
+
+		&__descr {
+			margin-bottom: 60px;
+			font-weight: 400;
+			font-size: 24px;
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		&__controls {
+			display: flex;
+			gap: 16px;
+			align-items: center;
+		}
+
+		&__poster {
+			max-width: 680px;
+		}
+
+		&__img {
+			width: 100%;
+			max-height: 552px;
+			border-radius: 16px;
+		}
+
+		&__error {
+			text-align: center;
+			color: rgba(255, 255, 255, 0.7);
+			font-size: 18px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+		}
+	}
+</style>
