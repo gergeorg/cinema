@@ -17,7 +17,9 @@
 
 				<div class="top-film__controls">
 					<BaseButton variant="blue" size="big" @click="openTrailer">Трейлер</BaseButton>
-					<BaseButton variant="dark" size="big" @click="goToMovie">О фильме</BaseButton>
+					<BaseButton v-if="!props.movieId" variant="dark" size="big" @click="goToMovie">
+						О фильме
+					</BaseButton>
 
 					<BaseButton
 						variant="dark"
@@ -27,6 +29,7 @@
 					/>
 
 					<BaseButton
+						v-if="!props.movieId"
 						variant="dark"
 						size="small"
 						icon="change"
@@ -65,27 +68,41 @@
 	import TopFilmSkeleton from './TopFilmSkeleton.vue'
 	import placeholder from '@/assets/no-poster.png'
 
-	const randomMoviesStore = useMoviesStore()
-	const { randomMovie: movie, loadingRandom: loading, errorRandom } = storeToRefs(randomMoviesStore)
+	const props = defineProps<{ movieId?: string }>()
+	const moviesStore = useMoviesStore()
+
+	const { randomMovie, loadingRandom, errorRandom, selectedMovie, loadingSelected } =
+		storeToRefs(moviesStore)
+
 	const router = useRouter()
+	const isMovieView = computed(() => !!props.movieId)
 
 	onMounted(() => {
-		randomMoviesStore.fetchRandomMovie()
+		if (props.movieId) {
+			moviesStore.fetchMovieById(props.movieId)
+		} else {
+			moviesStore.fetchRandomMovie()
+		}
 	})
 
 	const getRandomMovie = async (force = true) => {
-		await randomMoviesStore.fetchRandomMovie(force)
+		if (!isMovieView.value) await moviesStore.fetchRandomMovie(force)
 	}
 
 	const goToMovie = () => {
-		if (movie.value) router.push(`/movies/${movie.value.id}`)
+		const m = isMovieView.value ? selectedMovie.value : randomMovie.value
+		if (m) router.push(`/movies/${m.id}`)
 	}
 
 	const openTrailer = () => {
-		if (movie.value?.trailerUrl) {
-			window.dispatchEvent(new CustomEvent('open-trailer', { detail: movie.value.trailerUrl }))
+		const m = isMovieView.value ? selectedMovie.value : randomMovie.value
+		if (m?.trailerUrl) {
+			window.dispatchEvent(new CustomEvent('open-trailer', { detail: m.trailerUrl }))
 		}
 	}
+
+	const movie = computed(() => (isMovieView.value ? selectedMovie.value : randomMovie.value))
+	const loading = computed(() => (isMovieView.value ? loadingSelected.value : loadingRandom.value))
 
 	const formattedRuntime = computed(() => {
 		const minutes = movie.value?.runtime

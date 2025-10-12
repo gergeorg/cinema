@@ -7,6 +7,10 @@ interface IMoviesState {
   loadingRandom: boolean
   errorRandom: string | null
 
+  selectedMovie: IMovie | null
+  loadingSelected: boolean
+  errorSelected: string | null
+
   top10: IMovie[]
   loadingTop10: boolean
   errorTop10: string | null
@@ -17,6 +21,10 @@ export const useMoviesStore = defineStore('movies', {
     randomMovie: null,
     loadingRandom: false,
     errorRandom: null,
+
+  selectedMovie: null,
+  loadingSelected: false,
+  errorSelected: null,
 
     top10: [],
     loadingTop10: false,
@@ -45,6 +53,24 @@ export const useMoviesStore = defineStore('movies', {
         this.loadingRandom = false
       }
     },
+
+    // --- Получение фильма по id ---
+    async fetchMovieById(movieId: string | number, force = false) {
+      if (this.loadingSelected || (this.selectedMovie && !force && String(this.selectedMovie.id) === String(movieId))) return
+
+      this.loadingSelected = true
+      this.errorSelected = null
+      try {
+        const res = await api.get<IMovie>(`/movie/${movieId}`)
+        this.selectedMovie = res.data
+      } catch (err) {
+        console.error('Ошибка загрузки фильма по id', err)
+        this.errorSelected = 'Не удалось загрузить фильм. Попробуйте позже.'
+      } finally {
+        this.loadingSelected = false
+      }
+    },
+
 
     // --- Топ 10 фильмов ---
     async fetchTop10(force = false) {
