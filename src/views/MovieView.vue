@@ -1,37 +1,33 @@
 <template>
-	<template v-if="loading">
-		<div class="container">
+	<div class="movie-view">
+		<div v-if="loading" class="container">
 			<TopFilmSkeleton />
 			<MovieAboutSkeleton />
 		</div>
-	</template>
 
-	<template v-else-if="error">
-		<div class="container about-film__error">
-			<p>{{ error }}</p>
-		</div>
-	</template>
+		<TheError :message="error" v-if="error" />
 
-	<template v-else-if="movie">
-		<div class="movie-page__content">
-			<TopFilm :movieId="movieId" />
+		<template v-else-if="movie">
+			<div class="movie-page__content">
+				<TopFilm :movieId="movieId" />
 
-			<section class="about-film">
-				<div class="about-film__container container">
-					<h2 class="about-film__title">О фильме</h2>
+				<section class="about-film">
+					<div class="about-film__container container">
+						<h2 class="about-film__title">О фильме</h2>
 
-					<ul class="about-film__list">
-						<MovieParamItem title="Язык оригинала" :value="movie.language" />
-						<MovieParamItem title="Бюджет" :value="movie.budget" />
-						<MovieParamItem title="Выручка" :value="movie.revenue" />
-						<MovieParamItem title="Режиссер" :value="movie.director" />
-						<MovieParamItem title="Продакшен" :value="movie.production" />
-						<MovieParamItem title="Награды" :value="movie.awardsSummary" />
-					</ul>
-				</div>
-			</section>
-		</div>
-	</template>
+						<ul class="about-film__list">
+							<MovieParamItem title="Язык оригинала" :value="movie.language" />
+							<MovieParamItem title="Бюджет" :value="movie.budget" />
+							<MovieParamItem title="Выручка" :value="movie.revenue" />
+							<MovieParamItem title="Режиссер" :value="movie.director" />
+							<MovieParamItem title="Продакшен" :value="movie.production" />
+							<MovieParamItem title="Награды" :value="movie.awardsSummary" />
+						</ul>
+					</div>
+				</section>
+			</div>
+		</template>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -42,6 +38,7 @@
 	import MovieParamItem from '../components/ui/MovieParamItem.vue'
 	import MovieAboutSkeleton from '@/components/MovieAboutSkeleton.vue'
 	import TopFilmSkeleton from '@/components/TopFilmSkeleton.vue'
+	import TheError from '@/components/TheError.vue'
 
 	const route = useRoute()
 	const movieId = route.params.id as string

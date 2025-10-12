@@ -3,7 +3,7 @@
 		<div class="container top-list__container">
 			<h2 class="top-list__title">Топ 10 фильмов</h2>
 
-			<p v-if="errorTop10" class="top-list__error">{{ errorTop10 }}</p>
+			<TheError :message="errorTop10" v-if="errorTop10" />
 
 			<ul v-else-if="loadingTop10" class="top-list__list" aria-hidden="true">
 				<FilmCardSkeleton v-for="n in 10" :key="n" />
@@ -28,6 +28,7 @@
 	import { useMoviesStore } from '@/stores/useMoviesStore'
 	import FilmCard from './FilmCard.vue'
 	import FilmCardSkeleton from './FilmCardSkeleton.vue'
+	import TheError from './TheError.vue'
 
 	const moviesStore = useMoviesStore()
 	const { top10, loadingTop10, errorTop10 } = storeToRefs(moviesStore)

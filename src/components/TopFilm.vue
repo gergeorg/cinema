@@ -1,4 +1,8 @@
 <template>
+	<TheError :message="errorRandom" v-if="errorRandom" />
+
+	<TopFilmSkeleton v-else-if="loading" />
+
 	<section class="top-film">
 		<div v-if="!loading && movie" class="container top-film__container">
 			<div class="top-film__info">
@@ -48,13 +52,6 @@
 				/>
 			</div>
 		</div>
-
-		<TopFilmSkeleton v-else-if="loading" />
-
-		<div v-else-if="errorRandom" class="top-film__error">
-			<p>{{ errorRandom }}</p>
-			<BaseButton variant="blue" size="big" @click="getRandomMovie(true)"> Повторить </BaseButton>
-		</div>
 	</section>
 </template>
 
@@ -67,6 +64,7 @@
 	import BaseButton from './ui/BaseButton.vue'
 	import TopFilmSkeleton from './TopFilmSkeleton.vue'
 	import placeholder from '@/assets/no-poster.png'
+	import TheError from './TheError.vue'
 
 	const props = defineProps<{ movieId?: string }>()
 	const moviesStore = useMoviesStore()

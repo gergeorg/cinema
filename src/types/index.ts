@@ -17,8 +17,4 @@ export interface IMovie {
   awardsSummary: string
 }
 
-export interface Genre {
-  id: string;
-  name: string;
-  image?: string;
-}
+export type IGenres = string[]
