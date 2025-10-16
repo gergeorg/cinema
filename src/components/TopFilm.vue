@@ -20,8 +20,16 @@
 				<p class="top-film__descr">{{ movie.plot }}</p>
 
 				<div class="top-film__controls">
-					<BaseButton variant="blue" size="big" @click="openTrailer">Трейлер</BaseButton>
-					<BaseButton v-if="!props.movieId" variant="dark" size="big" @click="goToMovie">
+					<BaseButton type="button" variant="blue" size="big" @click="openTrailer"
+						>Трейлер</BaseButton
+					>
+					<BaseButton
+						v-if="!props.movieId"
+						variant="dark"
+						size="big"
+						type="button"
+						@click="goToMovie"
+					>
 						О фильме
 					</BaseButton>
 
@@ -29,6 +37,7 @@
 						variant="dark"
 						size="small"
 						icon="favorite"
+						type="button"
 						aria-label="Добавить фильм в избранное"
 					/>
 
@@ -37,6 +46,7 @@
 						variant="dark"
 						size="small"
 						icon="change"
+						type="button"
 						aria-label="Показать случайный фильм"
 						@click="getRandomMovie"
 					/>

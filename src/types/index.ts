@@ -18,3 +18,29 @@ export interface IMovie {
 }
 
 export type IGenres = string[]
+
+export interface IUser {
+  id: number
+  email: string
+  name: string
+  surname: string
+  favorites?: number[]
+}
+
+export interface RegisterPayload {
+  email: string
+  password: string
+  name: string
+  surname: string
+}
+
+export interface LoginPayload {
+  email: string
+  password: string
+}
+
+export interface AuthState {
+  user: IUser | null
+  loading: boolean
+  error: string | null
+}

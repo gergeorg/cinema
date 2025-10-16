@@ -3,6 +3,14 @@
 	import TheHeader from './components/TheHeader.vue'
 	import TrailerModal from './components/ui/TrailerModal.vue'
 	import TheFooter from './components/TheFooter.vue'
+
+	import { useAuthStore } from '@/stores/useAuthStore'
+	import { onMounted } from 'vue'
+
+	onMounted(() => {
+		const authStore = useAuthStore()
+		authStore.fetchProfile()
+	})
 </script>
 
 <template>
