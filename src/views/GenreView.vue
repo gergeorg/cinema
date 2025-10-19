@@ -49,7 +49,13 @@
 	onMounted(fetchAll)
 	watch(genre, fetchAll)
 
-	const movies = computed(() => moviesStore.getMoviesByGenre(genre.value))
+	const movies = computed(() => {
+		const g = (genre.value || '').toString().toLowerCase()
+		if (!g) return []
+		return moviesStore.allMovies.filter(
+			(m) => Array.isArray(m.genres) && m.genres.some((gg) => String(gg).toLowerCase() === g),
+		)
+	})
 
 	const loading = computed(() => loadingAllMovies.value)
 	const error = computed(() => errorAllMovies.value)

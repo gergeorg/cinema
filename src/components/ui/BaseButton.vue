@@ -5,7 +5,7 @@
 		:type="type"
 		:aria-label="ariaLabel"
 		:disabled="disabled"
-		@click="$emit('click')"
+		@click="$emit('click', $event)"
 	>
 		<!-- Иконка слева -->
 		<BaseIcon

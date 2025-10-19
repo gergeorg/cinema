@@ -1,5 +1,5 @@
 <template>
-	<li class="film-card">
+	<li class="film-card" :class="{ 'film-card--hoverable': showRemove }">
 		<RouterLink
 			:to="`/movies/${movie.id}`"
 			class="film-card__link"
@@ -13,25 +13,39 @@
 				loading="lazy"
 			/>
 		</RouterLink>
+
+		<button
+			v-if="showRemove"
+			class="film-card__remove"
+			type="button"
+			@click.stop="$emit('remove', movie.id)"
+			aria-label="Удалить из избранного"
+		>
+			<BaseIcon name="close" size="24" />
+		</button>
 	</li>
 </template>
+
+<!-- id="icon-close"  -->
 
 <script setup lang="ts">
 	import { RouterLink } from 'vue-router'
 	import type { IMovie } from '@/types'
 	import { withDefaults, defineProps } from 'vue'
 	import placeholder from '@/assets/no-poster.png'
+	import BaseIcon from './ui/BaseIcon.vue'
 
 	const props = withDefaults(
 		defineProps<{
 			movie: IMovie
 			index?: number
 			showNumber?: boolean
+			showRemove?: boolean
 		}>(),
-		{ showNumber: true },
+		{ showNumber: true, showRemove: false },
 	)
 
-	const { movie, index, showNumber } = props
+	const { movie, index, showNumber, showRemove } = props
 </script>
 
 <style scoped lang="scss">
@@ -86,6 +100,39 @@
 			height: 336px;
 			object-fit: cover;
 			border-radius: 16px;
+		}
+
+		&__remove {
+			position: absolute;
+			top: -20px;
+			right: -20px;
+			background: #fff;
+			border-radius: 30px;
+			width: 40px;
+			height: 40px;
+			border: none;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 18px;
+			line-height: 1;
+			cursor: pointer;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+			transition:
+				opacity 0.18s ease,
+				transform 0.18s cubic-bezier(0.2, 0.9, 0.2, 1);
+			transform: translateY(-6px) scale(0.96);
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		&--hoverable {
+			&:hover .film-card__remove,
+			&:focus-within .film-card__remove {
+				opacity: 1;
+				pointer-events: auto;
+				transform: translateY(0) scale(1);
+			}
 		}
 	}
 </style>

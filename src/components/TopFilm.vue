@@ -20,9 +20,10 @@
 				<p class="top-film__descr">{{ movie.plot }}</p>
 
 				<div class="top-film__controls">
-					<BaseButton type="button" variant="blue" size="big" @click="openTrailer"
-						>Трейлер</BaseButton
-					>
+					<BaseButton type="button" variant="blue" size="big" @click="openTrailer">
+						Трейлер
+					</BaseButton>
+
 					<BaseButton
 						v-if="!props.movieId"
 						variant="dark"
@@ -36,9 +37,10 @@
 					<BaseButton
 						variant="dark"
 						size="small"
-						icon="favorite"
+						:icon="isFavorite ? 'favorite-filled' : 'favorite'"
 						type="button"
 						aria-label="Добавить фильм в избранное"
+						@click.stop="toggleFavoriteHandler"
 					/>
 
 					<BaseButton
@@ -70,6 +72,8 @@
 	import { RouterLink, useRouter } from 'vue-router'
 	import { storeToRefs } from 'pinia'
 	import { useMoviesStore } from '@/stores/useMoviesStore'
+	import { useFavoritesStore } from '@/stores/useFavoritesStore'
+	import { useAuthStore } from '../stores/useAuthStore'
 	import TheRating from './ui/TheRating.vue'
 	import BaseButton from './ui/BaseButton.vue'
 	import TopFilmSkeleton from './TopFilmSkeleton.vue'
@@ -78,39 +82,34 @@
 
 	const props = defineProps<{ movieId?: string }>()
 	const moviesStore = useMoviesStore()
+	const favoritesStore = useFavoritesStore()
+	const authStore = useAuthStore()
 
 	const { randomMovie, loadingRandom, errorRandom, selectedMovie, loadingSelected } =
 		storeToRefs(moviesStore)
+	const { favorites } = storeToRefs(favoritesStore)
 
 	const router = useRouter()
 	const isMovieView = computed(() => !!props.movieId)
 
-	onMounted(() => {
+	onMounted(async () => {
+		if (!moviesStore.allMovies.length) await moviesStore.fetchAllMovies()
+
 		if (props.movieId) {
-			moviesStore.fetchMovieById(props.movieId)
+			await moviesStore.fetchMovieById(props.movieId)
 		} else {
-			moviesStore.fetchRandomMovie()
+			await moviesStore.fetchRandomMovie()
 		}
+
+		await favoritesStore.fetchFavorites()
 	})
-
-	const getRandomMovie = async (force = true) => {
-		if (!isMovieView.value) await moviesStore.fetchRandomMovie(force)
-	}
-
-	const goToMovie = () => {
-		const m = isMovieView.value ? selectedMovie.value : randomMovie.value
-		if (m) router.push(`/movies/${m.id}`)
-	}
-
-	const openTrailer = () => {
-		const m = isMovieView.value ? selectedMovie.value : randomMovie.value
-		if (m?.trailerUrl) {
-			window.dispatchEvent(new CustomEvent('open-trailer', { detail: m.trailerUrl }))
-		}
-	}
 
 	const movie = computed(() => (isMovieView.value ? selectedMovie.value : randomMovie.value))
 	const loading = computed(() => (isMovieView.value ? loadingSelected.value : loadingRandom.value))
+
+	const isFavorite = computed(() =>
+		movie.value ? favorites.value.includes(String(movie.value.id)) : false,
+	)
 
 	const formattedRuntime = computed(() => {
 		const minutes = movie.value?.runtime
@@ -119,6 +118,32 @@
 		const mins = minutes % 60
 		return `${hours > 0 ? `${hours} ч ` : ''}${mins} мин`
 	})
+
+	const getRandomMovie = async (force = true) => {
+		if (!isMovieView.value) await moviesStore.fetchRandomMovie(force)
+	}
+
+	const goToMovie = () => {
+		const m = movie.value
+		if (m) router.push(`/movies/${m.id}`)
+	}
+
+	const openTrailer = () => {
+		const m = movie.value
+		if (m?.trailerUrl) {
+			window.dispatchEvent(new CustomEvent('open-trailer', { detail: m.trailerUrl }))
+		}
+	}
+
+	const toggleFavoriteHandler = async () => {
+		if (!movie.value?.id) return
+		if (!authStore.isAuthenticated) {
+			window.dispatchEvent(new CustomEvent('open-auth', { detail: { mode: 'login' } }))
+			return
+		}
+
+		await favoritesStore.toggleFavorite(movie.value.id)
+	}
 </script>
 
 <style scoped lang="scss">

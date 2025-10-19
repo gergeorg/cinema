@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted } from 'vue'
+	import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 	import { storeToRefs } from 'pinia'
 	import { RouterLink } from 'vue-router'
 
@@ -48,9 +48,11 @@
 	import ModalSuccess from '@/components/ModalSuccess.vue'
 
 	import { useAuthStore } from '../stores/useAuthStore'
+	import { useFavoritesStore } from '@/stores/useFavoritesStore'
 
 	const authStore = useAuthStore()
 	const { isAuthenticated } = storeToRefs(authStore)
+	const favoritesStore = useFavoritesStore()
 
 	const isLoginOpen = ref(false)
 	const isRegisterOpen = ref(false)
@@ -76,6 +78,30 @@
 
 	onMounted(() => {
 		authStore.fetchProfile()
+	})
+
+	watch(isAuthenticated, (val) => {
+		if (val) favoritesStore.fetchFavorites()
+	})
+
+	const onOpenAuth = (e: Event) => {
+		const custom = e as CustomEvent
+		const mode = custom?.detail?.mode || 'login'
+		if (mode === 'login') {
+			isLoginOpen.value = true
+		} else if (mode === 'register') {
+			isRegisterOpen.value = true
+		} else if (mode === 'success') {
+			isSuccessOpen.value = true
+		}
+	}
+
+	onMounted(() => {
+		window.addEventListener('open-auth', onOpenAuth as EventListener)
+	})
+
+	onBeforeUnmount(() => {
+		window.removeEventListener('open-auth', onOpenAuth as EventListener)
 	})
 </script>
 

@@ -68,7 +68,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    // --- Выход из системы --- (без изменений)
+    // --- Выход из системы ---
     async logout(): Promise<void> {
       this.loading = true
       this.error = null
@@ -88,7 +88,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    // --- Получение профиля --- (без изменений)
+    // --- Получение профиля ---
     async fetchProfile(): Promise<void> {
       this.loading = true
       this.error = null
