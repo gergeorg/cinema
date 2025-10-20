@@ -2,10 +2,9 @@
 	<form class="search" @submit.prevent>
 		<input
 			v-model="query"
-			@input="onInput"
 			@keydown="onKeydown"
 			@keydown.esc="close"
-			:type="'search'"
+			type="search"
 			:aria-activedescendant="activeDescendant"
 			aria-controls="search-dropdown"
 			:aria-expanded="open"
@@ -18,7 +17,7 @@
 		/>
 
 		<BaseButton
-			v-if="query"
+			v-if="query && results.length"
 			type="button"
 			variant="plain"
 			class="search__clear"
@@ -38,18 +37,20 @@
 			:activeIndex="activeIndex"
 			@select="goToMovie"
 			@hover="onHover"
+			ref="dropdownRef"
 		/>
 	</form>
 </template>
 
 <script setup lang="ts">
 	import BaseIcon from './BaseIcon.vue'
-	import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+	import BaseButton from './BaseButton.vue'
+	import SearchDropdown from './SearchDropdown.vue'
+	import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 	import { useRouter } from 'vue-router'
 	import { useMoviesStore } from '@/stores/useMoviesStore'
 	import type { IMovie } from '@/types'
-	import SearchDropdown from './SearchDropdown.vue'
-	import BaseButton from './BaseButton.vue'
+	import debounce from 'lodash/debounce'
 
 	const router = useRouter()
 	const moviesStore = useMoviesStore()
@@ -58,17 +59,45 @@
 	const results = ref<IMovie[]>([])
 	const open = ref(false)
 	const activeIndex = ref(-1)
+
 	const activeDescendant = computed(() => {
 		const idx = activeIndex.value
 		if (idx < 0 || !results.value[idx]) return undefined
 		return `search-item-${results.value[idx].id}`
 	})
-	let timer: number | undefined
 
-	const onInput = () => {
-		if (timer) clearTimeout(timer)
-		timer = window.setTimeout(search, 300)
+	type DropdownExpose = {
+		scrollToItemId?: (id: string | number) => void
+		focusItemId?: (id: string | number) => void
+		focusFirst?: () => void
 	}
+	const dropdownRef = ref<DropdownExpose | null>(null)
+
+	const search = async (q: string) => {
+		const queryText = q.trim()
+		if (!queryText) {
+			results.value = []
+			open.value = false
+			activeIndex.value = -1
+			return
+		}
+
+		await moviesStore.fetchAllMovies()
+
+		const list = moviesStore.allMovies.filter((m) =>
+			(m.title ?? '').toLowerCase().includes(queryText.toLowerCase()),
+		)
+
+		results.value = list.slice(0, 5)
+		open.value = results.value.length > 0
+		activeIndex.value = results.value.length ? 0 : -1
+	}
+
+	const debouncedSearch = debounce((q: string) => search(q), 300)
+
+	watch(query, (newQuery) => {
+		debouncedSearch(newQuery)
+	})
 
 	const onKeydown = (e: KeyboardEvent) => {
 		if (e.key === 'Tab') {
@@ -85,38 +114,12 @@
 		} else if (e.key === 'Escape') close()
 	}
 
-	type DropdownExpose = {
-		scrollToItemId?: (id: string | number) => void
-		focusItemId?: (id: string | number) => void
-		focusFirst?: () => void
-	}
-	const dropdownRef = ref<DropdownExpose | null>(null)
-
 	const onHover = (i: number) => (activeIndex.value = i)
-
-	const search = async () => {
-		const q = query.value.trim()
-		if (!q) {
-			results.value = []
-			open.value = false
-			activeIndex.value = -1
-			return
-		}
-
-		await moviesStore.fetchAllMovies()
-
-		const list = moviesStore.allMovies.filter((m) =>
-			(m.title ?? '').toLowerCase().includes(q.toLowerCase()),
-		)
-
-		results.value = list.slice(0, 5)
-		open.value = results.value.length > 0
-		activeIndex.value = results.value.length ? 0 : -1
-	}
 
 	const close = () => {
 		open.value = false
 		activeIndex.value = -1
+		results.value = []
 	}
 
 	const goToMovie = (id: string | number) => {

@@ -1,17 +1,17 @@
 <template>
-	<ul v-if="items && items.length" class="search-dropdown" role="listbox" ref="root">
+	<ul v-if="displayedItems.length" class="search-dropdown" role="listbox" ref="root">
 		<li
-			v-for="(movie, index) in items"
+			v-for="(movie, index) in displayedItems"
 			:key="movie.id"
 			:id="`search-item-${movie.id}`"
-			:class="['search-dropdown__item', { 'is-active': index === activeIndex }]"
+			:class="['search-dropdown__item', { 'is-active': index === currentActiveIndex }]"
 			@click="$emit('select', movie.id)"
 			@mouseenter="$emit('hover', index)"
-			:tabindex="0"
+			tabindex="0"
 			@focus="$emit('hover', index)"
 			@keydown.enter.prevent="$emit('select', movie.id)"
 			role="option"
-			:aria-selected="index === activeIndex"
+			:aria-selected="index === currentActiveIndex"
 		>
 			<img
 				:src="movie.posterUrl ?? placeholder"
@@ -34,12 +34,13 @@
 <script setup lang="ts">
 	import type { IMovie } from '@/types'
 	import placeholder from '@/assets/no-poster.png'
-	import { ref, defineExpose } from 'vue'
+	import { ref, computed, defineExpose } from 'vue'
 	import TheRating from './TheRating.vue'
 
 	const props = defineProps<{ items: IMovie[]; activeIndex?: number }>()
-	const items = props.items || []
-	const activeIndex = props.activeIndex ?? -1
+	const displayedItems = computed(() => props.items || [])
+	const currentActiveIndex = computed(() => props.activeIndex ?? -1)
+
 	const root = ref<HTMLElement | null>(null)
 
 	const formatRuntime = (minutes?: number | null) => {
