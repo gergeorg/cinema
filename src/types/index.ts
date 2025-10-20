@@ -17,6 +17,28 @@ export interface IMovie {
   awardsSummary: string
 }
 
+export interface IMoviesState {
+  randomMovie: IMovie | null
+  loadingRandom: boolean
+  errorRandom: string | null
+
+  selectedMovie: IMovie | null
+  loadingSelected: boolean
+  errorSelected: string | null
+
+  top10: IMovie[]
+  loadingTop10: boolean
+  errorTop10: string | null
+
+  genres: string[]
+  loadingGenres: boolean
+  errorGenres: string | null
+
+  allMovies: IMovie[]
+  loadingAllMovies: boolean
+  errorAllMovies: string | null
+}
+
 export type IGenres = string[]
 
 export interface IUser {
@@ -27,20 +49,26 @@ export interface IUser {
   favorites?: number[]
 }
 
-export interface RegisterPayload {
+export interface IRegisterPayload {
   email: string
   password: string
   name: string
   surname: string
 }
 
-export interface LoginPayload {
+export interface ILoginPayload {
   email: string
   password: string
 }
 
-export interface AuthState {
+export interface IAuthState {
   user: IUser | null
+  loading: boolean
+  error: string | null
+}
+
+export interface IFavoritesState {
+  favorites: string[]
   loading: boolean
   error: string | null
 }

@@ -63,21 +63,13 @@
 			font-weight: 700;
 			font-size: 40px;
 			line-height: 120%;
-			color: #fff;
+			color: var(--color-white);
 		}
 
 		&__list {
-			list-style: none;
-			padding: 0;
-
 			display: flex;
 			flex-direction: column;
 			gap: 24px;
-		}
-
-		&__error {
-			text-align: center;
-			margin: 40px 0;
 		}
 	}
 

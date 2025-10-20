@@ -21,17 +21,16 @@
 		display: flex;
 		align-items: center;
 		padding: 12px 16px;
-		background-color: #fff5f5;
+		background-color: var(--color-white);
 		border: 1px solid #ffcccc;
 		border-radius: 6px;
-		color: #d32f2f;
+		color: var(--color-error);
 		font-size: 20px;
 		margin: 12px 0;
 	}
 
 	.error-icon {
 		margin-right: 10px;
-		font-size: 18px;
 	}
 
 	.error-message {

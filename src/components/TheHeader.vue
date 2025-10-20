@@ -8,9 +8,9 @@
 			<TheNav />
 			<SearchForm class="header__search" />
 
-			<button v-if="!isAuthenticated" @click="openLogin" class="header__button hover">Войти</button>
+			<button v-if="!isAuthenticated" @click="openLogin" class="header__button">Войти</button>
 
-			<RouterLink v-else to="/profile" class="header__button hover">
+			<RouterLink v-else to="/profile" class="header__button">
 				{{ authStore.user?.name }}
 			</RouterLink>
 		</div>
@@ -116,6 +116,12 @@
 
 		&__logo {
 			margin-right: 80px;
+
+			&:focus-visible {
+				outline: 1px solid var(--color-hover);
+				outline-offset: 4px;
+				border-radius: 2px;
+			}
 		}
 
 		&__search {
@@ -126,19 +132,24 @@
 			font-family: var(--font-family);
 			font-weight: 400;
 			font-size: 24px;
-			line-height: 133%;
-			color: #fff;
+			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
 			background: transparent;
 			border: none;
 			cursor: pointer;
 
 			&:hover {
-				color: #b4a9ff;
+				color: var(--color-hover);
 			}
 
 			&:active {
-				color: #fff;
+				color: var(--color-white);
+			}
+
+			&:focus-visible {
+				outline: 1px solid var(--color-hover);
+				outline-offset: 4px;
+				border-radius: 2px;
 			}
 		}
 	}

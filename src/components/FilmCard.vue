@@ -71,7 +71,7 @@
 
 			&:focus-visible {
 				outline: none;
-				outline: 1px solid #b4a9ff;
+				outline: 1px solid var(--color-hover);
 				outline-offset: 4px;
 				border-radius: 16px;
 			}
@@ -89,9 +89,8 @@
 			width: 62px;
 			font-weight: 700;
 			font-size: 24px;
-			line-height: 133%;
-			color: #6a5dc2;
-			background-color: #fff;
+			color: var(--color-violet);
+			background-color: var(--color-white);
 		}
 
 		&__image {
@@ -106,7 +105,7 @@
 			position: absolute;
 			top: -20px;
 			right: -20px;
-			background: #fff;
+			background: var(--color-white);
 			border-radius: 30px;
 			width: 40px;
 			height: 40px;
@@ -114,8 +113,6 @@
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 18px;
-			line-height: 1;
 			cursor: pointer;
 			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 			transition:

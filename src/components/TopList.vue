@@ -47,7 +47,7 @@
 			font-weight: 700;
 			font-size: 40px;
 			line-height: 120%;
-			color: #fff;
+			color: var(--color-white);
 		}
 
 		&__list {

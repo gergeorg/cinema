@@ -91,9 +91,7 @@
 		align-items: center;
 		justify-content: center;
 		font-weight: 700;
-		font-size: 18px;
-		line-height: 133%;
-		color: #fff;
+		color: var(--color-white);
 		border-radius: 28px;
 		transition:
 			background-color 0.3s ease-in-out,
@@ -108,11 +106,11 @@
 			&:focus-visible {
 				border-color: #45526e;
 				background-color: #45526e;
-				color: rgba(255, 255, 255, 0.5);
+				color: var(--color-white-05);
 			}
 
 			&:focus-visible {
-				outline: 1px solid #b4a9ff;
+				outline: 1px solid var(--color-hover);
 				outline-offset: 1px;
 			}
 		}
@@ -125,11 +123,11 @@
 			&:focus-visible {
 				border-color: rgba(0, 0, 0, 0.4);
 				background-color: #747474;
-				color: rgba(255, 255, 255, 0.5);
+				color: var(--color-white-05);
 			}
 
 			&:focus-visible {
-				outline: 1px solid #b4a9ff;
+				outline: 1px solid var(--color-hover);
 				outline-offset: 1px;
 			}
 		}
@@ -144,12 +142,12 @@
 
 			&:hover,
 			&:focus-visible {
-				color: #b4a9ff;
+				color: var(--color-hover);
 				background: transparent;
 			}
 
 			&:focus-visible {
-				outline: 1px solid #b4a9ff;
+				outline: 1px solid var(--color-hover);
 				outline-offset: 1px;
 			}
 		}

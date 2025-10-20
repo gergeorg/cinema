@@ -1,17 +1,11 @@
 import { defineStore } from 'pinia'
 import api from '@/api/api'
 import type { AxiosError } from 'axios'
-import type { IMovie } from '@/types'
+import type { IFavoritesState, IMovie } from '@/types'
 import { useMoviesStore } from './useMoviesStore'
 
-interface FavoritesState {
-  favorites: string[]
-  loading: boolean
-  error: string | null
-}
-
 export const useFavoritesStore = defineStore('favorites', {
-  state: (): FavoritesState => ({
+  state: (): IFavoritesState => ({
     favorites: [],
     loading: false,
     error: null,

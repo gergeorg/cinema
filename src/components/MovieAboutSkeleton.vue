@@ -14,19 +14,22 @@
 	.skeleton {
 		position: relative;
 		overflow: hidden;
-		background: rgba(255, 255, 255, 0.08);
+		background: var(--skeleton-base-bg);
 		border-radius: 8px;
 		margin-bottom: 12px;
 
 		&::after {
 			content: '';
 			position: absolute;
-			top: 0;
-			left: -150px;
-			height: 100%;
-			width: 150px;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-			animation: shimmer 1.2s infinite;
+			inset: 0;
+			background: linear-gradient(
+				90deg,
+				var(--skeleton-shimmer-color-start) 0%,
+				var(--skeleton-shimmer-color-mid) 50%,
+				var(--skeleton-shimmer-color-end) 100%
+			);
+			transform: translateX(-100%);
+			animation: shimmer var(--skeleton-shimmer-duration) infinite;
 		}
 
 		&--title {
@@ -40,12 +43,6 @@
 
 		&--item {
 			height: 25px;
-		}
-	}
-
-	@keyframes shimmer {
-		100% {
-			transform: translateX(100%);
 		}
 	}
 </style>

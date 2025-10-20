@@ -70,7 +70,7 @@
 	}
 
 	.modal {
-		background: #000;
+		background: var(--color-white);
 		border-radius: 12px;
 		width: 80%;
 		width: 960px;
@@ -84,7 +84,7 @@
 		position: absolute;
 		top: 0;
 		right: -72px;
-		color: #000;
+		color: var(--color-white);
 		border: none;
 		cursor: pointer;
 		display: flex;
@@ -93,6 +93,6 @@
 		border-radius: 24px;
 		width: 48px;
 		height: 48px;
-		background-color: #fff;
+		background-color: var(--color-white);
 	}
 </style>

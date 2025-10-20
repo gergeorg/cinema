@@ -21,10 +21,12 @@
 	import type { IUser } from '@/types'
 	import { storeToRefs } from 'pinia'
 	import { computed } from 'vue'
+	import { useRouter } from 'vue-router'
 	import BaseButton from './ui/BaseButton.vue'
 
 	const authStore = useAuthStore()
 	const { user } = storeToRefs(authStore)
+	const router = useRouter()
 
 	const initials = computed<string>(() => {
 		const u = user.value as IUser | null
@@ -36,6 +38,7 @@
 
 	const logout = async () => {
 		await authStore.logout()
+		router.push({ path: '/' })
 	}
 </script>
 
@@ -65,28 +68,24 @@
 			border-radius: 30px;
 			width: 60px;
 			height: 60px;
-			background: rgba(255, 255, 255, 0.5);
+			background: var(--color-white-05);
 			font-weight: 700;
 			font-size: 24px;
-			line-height: 133%;
-			color: #fff;
+			color: var(--color-white);
 		}
 
 		&__title {
 			grid-area: title;
 			align-self: end;
 			font-weight: 400;
-			font-size: 18px;
-			line-height: 133%;
-			color: #fff;
+			color: var(--color-white);
 		}
 
 		&__value {
 			grid-area: value;
 			font-weight: 700;
 			font-size: 24px;
-			line-height: 133%;
-			color: #fff;
+			color: var(--color-white);
 		}
 	}
 </style>

@@ -84,9 +84,7 @@
 			border: 1px solid rgba(0, 0, 0, 0.4);
 			border-radius: 8px;
 			padding: 16px;
-			font-size: 18px;
-			line-height: 133%;
-			color: #000;
+			color: var(--color-white);
 			transition:
 				border-color 0.2s ease,
 				box-shadow 0.2s ease;
@@ -105,7 +103,7 @@
 
 			&:focus {
 				outline: none;
-				border-color: #b4a9ff;
+				border-color: var(--color-hover);
 				box-shadow: 0 0 0 2px rgba(180, 169, 255, 0.25);
 			}
 		}

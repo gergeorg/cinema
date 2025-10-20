@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import api from '@/api/api'
-import type { AuthState, IUser, LoginPayload, RegisterPayload } from '@/types'
+import type { IAuthState, IUser, ILoginPayload, IRegisterPayload } from '@/types'
 
 export const useAuthStore = defineStore('auth', {
-  state: (): AuthState => ({
+  state: (): IAuthState => ({
     user: null,
     loading: false,
     error: null,
@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     // --- Регистрация пользователя ---
-    async registerUser(payload: RegisterPayload): Promise<boolean> {
+    async registerUser(payload: IRegisterPayload): Promise<boolean> {
       this.loading = true
       this.error = null
 
@@ -47,7 +47,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     // --- Логин пользователя ---
-    async login({ email, password }: LoginPayload): Promise<boolean> {
+    async login({ email, password }: ILoginPayload): Promise<boolean> {
       this.loading = true
       this.error = null
 

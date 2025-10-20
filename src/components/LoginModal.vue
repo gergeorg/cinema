@@ -85,7 +85,7 @@
 
 		&__error {
 			margin-bottom: 10px;
-			color: #ff7575;
+			color: var(--color-error);
 		}
 	}
 </style>

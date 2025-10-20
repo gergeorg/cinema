@@ -51,7 +51,7 @@
 			font-weight: 700;
 			font-size: 48px;
 			line-height: 117%;
-			color: #fff;
+			color: var(--color-white);
 		}
 
 		&__tabs {
@@ -63,8 +63,7 @@
 		&__tab {
 			font-weight: 400;
 			font-size: 24px;
-			line-height: 133%;
-			color: #fff;
+			color: var(--color-white);
 			position: relative;
 			padding: 0;
 			cursor: pointer;

@@ -68,7 +68,7 @@
 		&__title {
 			font-size: 36px;
 			font-weight: 700;
-			color: #fff;
+			color: var(--color-white);
 			margin-bottom: 32px;
 			text-transform: capitalize;
 		}
@@ -76,11 +76,11 @@
 		&__button {
 			width: 40px;
 			height: 40px;
-			color: #fff;
+			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
 
 			&:hover {
-				color: #b4a9ff;
+				color: var(--color-hover);
 			}
 		}
 
@@ -96,11 +96,10 @@
 
 		&__empty {
 			text-align: center;
-			color: rgba(255, 255, 255, 0.7);
+			color: var(--color-white-07);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			font-size: 18px;
 		}
 	}
 </style>

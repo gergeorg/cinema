@@ -37,7 +37,7 @@
 					<BaseButton
 						variant="dark"
 						size="small"
-						:icon="isFavorite ? 'favorite-filled' : 'favorite'"
+						:icon="isFavorite ? 'favoriteFilled' : 'favorite'"
 						type="button"
 						aria-label="Добавить фильм в избранное"
 						@click.stop="toggleFavoriteHandler"
@@ -164,23 +164,25 @@
 			gap: 16px;
 			margin-bottom: 16px;
 			font-weight: 400;
-			font-size: 18px;
-			color: rgba(255, 255, 255, 0.7);
+
+			color: var(--color-white-07);
 		}
 
 		&__name {
+			display: block;
 			margin-bottom: 16px;
 			font-weight: 700;
 			font-size: 48px;
-			color: #fff;
+			line-height: 113%;
+			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
 
 			&:hover {
-				color: #b4a9ff;
+				color: var(--color-hover);
 			}
 
 			&:focus-within {
-				outline: 1px solid #b4a9ff;
+				outline: 1px solid var(--color-hover);
 				outline-offset: 1px;
 				border-radius: 2px;
 			}
@@ -190,7 +192,7 @@
 			margin-bottom: 60px;
 			font-weight: 400;
 			font-size: 24px;
-			color: rgba(255, 255, 255, 0.7);
+			color: var(--color-white-07);
 		}
 
 		&__controls {
@@ -207,16 +209,6 @@
 			width: 100%;
 			max-height: 552px;
 			border-radius: 16px;
-		}
-
-		&__error {
-			text-align: center;
-			color: rgba(255, 255, 255, 0.7);
-			font-size: 18px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 16px;
 		}
 	}
 </style>

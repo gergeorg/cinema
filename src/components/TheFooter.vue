@@ -3,25 +3,45 @@
 		<div class="container">
 			<ul class="footer__social-list">
 				<li class="footer__social-item">
-					<a href="#" class="footer__social-link" aria-label="Наша страница в VK">
+					<a
+						href="https://vk.com/"
+						class="footer__social-link"
+						aria-label="Наша страница в VK"
+						target="_blank"
+					>
 						<BaseIcon width="19" height="11" name="vk" />
 					</a>
 				</li>
 
 				<li class="footer__social-item">
-					<a href="#" class="footer__social-link" aria-label="Наш youtube канал">
+					<a
+						href="https://www.youtube.com/"
+						class="footer__social-link"
+						aria-label="Наш youtube канал"
+						target="_blank"
+					>
 						<BaseIcon width="16" height="12" name="yt" />
 					</a>
 				</li>
 
 				<li class="footer__social-item">
-					<a href="#" class="footer__social-link" aria-label="Наша страница в одноклассниках">
+					<a
+						href="https://ok.ru/"
+						class="footer__social-link"
+						aria-label="Наша страница в одноклассниках"
+						target="_blank"
+					>
 						<BaseIcon width="12" height="19" name="ok" />
 					</a>
 				</li>
 
 				<li class="footer__social-item">
-					<a href="#" class="footer__social-link" aria-label="Нашканал в telegtam">
+					<a
+						href="https://telegram.org/"
+						class="footer__social-link"
+						aria-label="Наш канал в telegtam"
+						target="_blank"
+					>
 						<BaseIcon width="17" height="15" name="tg" />
 					</a>
 				</li>
@@ -45,7 +65,7 @@
 		}
 
 		&__social-icon {
-			color: #fff;
+			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
 		}
 
@@ -60,19 +80,22 @@
 			transition: border 0.3s ease-in-out;
 
 			&:hover {
-				border: 1px solid #b4a9ff;
+				border: 1px solid var(--color-hover);
 
 				.icon {
-					color: #b4a9ff;
+					color: var(--color-hover);
 				}
+			}
+
+			&:focus-visible {
+				outline: 1px solid var(--color-hover);
+				outline-offset: 4px;
 			}
 		}
 
 		.icon {
-			color: #fff;
+			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
 		}
-
-		//TO-DO добавить стили для фокуса
 	}
 </style>

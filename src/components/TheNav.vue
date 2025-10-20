@@ -30,23 +30,21 @@
 		&__item {
 			font-weight: 400;
 			font-size: 24px;
-			line-height: 133%;
-			color: #fff;
+			color: var(--color-white);
 		}
 
 		&__link {
 			font-weight: 400;
 			font-size: 24px;
-			line-height: 133%;
-			color: #fff;
+			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
 
 			&:hover {
-				color: #b4a9ff;
+				color: var(--color-hover);
 			}
 
 			&:focus-visible {
-				outline: 1px solid #b4a9ff;
+				outline: 1px solid var(--color-hover);
 				outline-offset: 4px;
 				border-radius: 2px;
 			}

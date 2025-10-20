@@ -29,9 +29,7 @@
 		display: flex;
 		align-items: baseline;
 		font-weight: 400;
-		font-size: 18px;
-		line-height: 133%;
-		color: #fff;
+		color: var(--color-white);
 
 		&__title {
 			flex-shrink: 0;
@@ -40,7 +38,7 @@
 
 		&__dots {
 			flex-grow: 1;
-			border-bottom: 1px dotted #fff;
+			border-bottom: 1px dotted var(--color-white);
 			margin: 0 8px;
 		}
 

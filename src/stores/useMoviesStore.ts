@@ -1,28 +1,6 @@
 import { defineStore } from 'pinia'
 import api from '@/api/api'
-import type { IMovie } from '@/types'
-
-interface IMoviesState {
-  randomMovie: IMovie | null
-  loadingRandom: boolean
-  errorRandom: string | null
-
-  selectedMovie: IMovie | null
-  loadingSelected: boolean
-  errorSelected: string | null
-
-  top10: IMovie[]
-  loadingTop10: boolean
-  errorTop10: string | null
-
-  genres: string[]
-  loadingGenres: boolean
-  errorGenres: string | null
-
-  allMovies: IMovie[]
-  loadingAllMovies: boolean
-  errorAllMovies: string | null
-}
+import type { IMovie, IMoviesState } from '@/types'
 
 export const useMoviesStore = defineStore('movies', {
   state: (): IMoviesState => ({

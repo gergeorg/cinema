@@ -70,7 +70,7 @@
 		&__title {
 			font-size: 36px;
 			font-weight: 700;
-			color: #fff;
+			color: var(--color-white);
 			margin-bottom: 32px;
 		}
 
@@ -83,8 +83,7 @@
 		&__link {
 			display: inline-block;
 			margin-top: 16px;
-			color: #b4a9ff;
-			font-size: 18px;
+			color: var(--color-hover);
 			text-decoration: underline;
 		}
 

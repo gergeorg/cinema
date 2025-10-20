@@ -49,7 +49,7 @@
 	}
 
 	.modal-content {
-		background: #fff;
+		background: var(--color-white);
 		border-radius: 24px;
 		padding: 64px 40px;
 		width: 420px;
@@ -70,14 +70,13 @@
 		border-radius: 24px;
 		width: 48px;
 		height: 48px;
-		background: #fff;
+		background: var(--color-white);
 	}
 
 	.modal-title {
 		font-weight: 700;
 		font-size: 24px;
-		line-height: 133%;
-		color: #000;
+		color: var(--color-white);
 		margin: 0 0 24px;
 		text-align: center;
 	}

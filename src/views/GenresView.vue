@@ -68,7 +68,7 @@
 			font-weight: 700;
 			font-size: 48px;
 			line-height: 117%;
-			color: #fff;
+			color: var(--color-white);
 		}
 
 		&__list {
@@ -103,13 +103,13 @@
 
 			&:hover {
 				.genre-card__name {
-					color: #b4a9ff;
+					color: var(--color-hover);
 				}
 			}
 
 			&:focus-visible {
 				outline: none;
-				outline: 1px solid #b4a9ff;
+				outline: 1px solid var(--color-hover);
 				outline-offset: 4px;
 				border-radius: 16px;
 			}
@@ -126,9 +126,8 @@
 				padding-bottom: 30px;
 				font-weight: 700;
 				font-size: 24px;
-				line-height: 133%;
 				text-align: center;
-				color: #fff;
+				color: var(--color-white);
 				text-transform: capitalize;
 			}
 		}
@@ -142,25 +141,22 @@
 		.skeleton {
 			position: relative;
 			overflow: hidden;
-			background: rgba(255, 255, 255, 0.08);
+			background: var(--skeleton-base-bg);
 			border-radius: 8px;
 			margin-bottom: 12px;
 
 			&::after {
 				content: '';
 				position: absolute;
-				top: 0;
-				left: -150px;
-				height: 100%;
-				width: 150px;
-				background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-				animation: shimmer 1.2s infinite;
-			}
-		}
-
-		@keyframes shimmer {
-			100% {
-				transform: translateX(100%);
+				inset: 0;
+				background: linear-gradient(
+					90deg,
+					var(--skeleton-shimmer-color-start) 0%,
+					var(--skeleton-shimmer-color-mid) 50%,
+					var(--skeleton-shimmer-color-end) 100%
+				);
+				transform: translateX(-100%);
+				animation: shimmer var(--skeleton-shimmer-duration) infinite;
 			}
 		}
 	}
