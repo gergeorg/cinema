@@ -52,6 +52,24 @@ h1, h2, h3, h4, p {
 	padding: 0 50px;
 }
 
+@media (max-width: 1024px) {
+	.container {
+		padding: 0 40px;
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		padding: 0 30px;
+	}
+}
+
+@media (max-width: 375px) {
+	.container {
+		padding: 0 20px;
+	}
+}
+
 @keyframes shimmer {
 	0% {
 		transform: translateX(-100%);

@@ -34,6 +34,8 @@ describe('TheFooter.vue', () => {
 
     socialLinks.forEach((linkWrapper, index) => {
       const link = expectedLinks[index]
+      expect(link).toBeDefined()
+      if (!link) throw new Error('expected link not found')
       expect(linkWrapper.attributes('href')).toBe(link.href)
       expect(linkWrapper.attributes('aria-label')).toBe(link.label)
       expect(linkWrapper.findComponent(BaseIcon).props('name')).toBe(link.icon)
