@@ -1,19 +1,17 @@
-if (typeof globalThis.localStorage === 'undefined') {
-  globalThis.localStorage = {
-    getItem: () => null,
-    setItem: () => {},
-    removeItem: () => {},
-  };
-}
-
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+
+// Подключаем devtools только в dev-режиме
+const plugins = [vue()]
+if (process.env.NODE_ENV === 'development') {
+  const vueDevTools = require('vite-plugin-vue-devtools').default
+  plugins.push(vueDevTools())
+}
 
 export default defineConfig({
-  plugins: [vue(), vueDevTools()],
-    define: {
+  plugins,
+  define: {
     __VUE_PROD_DEVTOOLS__: false,
   },
   resolve: {
