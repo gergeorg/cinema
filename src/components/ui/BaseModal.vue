@@ -1,25 +1,29 @@
 <template>
-	<div v-if="isOpen" class="modal-overlay" @click.self="close">
-		<div class="modal-content">
-			<header class="modal-header">
-				<button class="close-btn" @click="close">
-					<BaseIcon name="close" size="24" />
-				</button>
-			</header>
+	<Transition name="fade">
+		<div v-if="isOpen" class="modal-overlay" @click.self="close">
+			<Transition name="scale">
+				<div v-if="isOpen" class="modal-content">
+					<header class="modal-header">
+						<button class="close-btn" @click="close">
+							<BaseIcon name="close" size="24" />
+						</button>
+					</header>
 
-			<div class="modal-body">
-				<img
-					class="modal-logo"
-					src="@/assets/small_logo.png"
-					alt="Логотип онлайн-кинотеатра 'Маруся'"
-				/>
+					<div class="modal-body">
+						<img
+							class="modal-logo"
+							src="@/assets/small_logo.png"
+							alt="Логотип онлайн-кинотеатра 'Маруся'"
+						/>
 
-				<h3 class="modal-title">{{ title }}</h3>
+						<h3 class="modal-title">{{ title }}</h3>
 
-				<slot />
-			</div>
+						<slot />
+					</div>
+				</div>
+			</Transition>
 		</div>
-	</div>
+	</Transition>
 </template>
 
 <script setup lang="ts">
@@ -30,14 +34,12 @@
 		title?: string
 	}>()
 
-	const emit = defineEmits<{
-		(e: 'close'): void
-	}>()
+	const emit = defineEmits<{ (e: 'close'): void }>()
 
 	const close = () => emit('close')
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	.modal-overlay {
 		position: fixed;
 		inset: 0;
@@ -48,12 +50,34 @@
 		z-index: 100;
 	}
 
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.3s ease;
+	}
+	.fade-enter-from,
+	.fade-leave-to {
+		opacity: 0;
+	}
+
+	.scale-enter-active,
+	.scale-leave-active {
+		transition:
+			transform 0.25s ease,
+			opacity 0.25s ease;
+	}
+	.scale-enter-from,
+	.scale-leave-to {
+		transform: scale(0.9);
+		opacity: 0;
+	}
+
 	.modal-content {
 		background: var(--color-white);
 		border-radius: 24px;
 		padding: 64px 40px;
 		width: 420px;
 		position: relative;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 	}
 
 	.modal-logo {

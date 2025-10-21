@@ -1,31 +1,29 @@
 <template>
 	<section class="favorites">
-		<div class="container">
-			<h1 class="favorites__title">Избранные фильмы</h1>
+		<h1 class="favorites__title">Избранные фильмы</h1>
 
-			<TheError v-if="error" :message="error" />
+		<TheError v-if="error" :message="error" />
 
-			<div v-else-if="loading" class="favorites__loading">
-				<FilmCardSkeleton v-for="n in 10" :key="n" />
-			</div>
-
-			<div v-else-if="movies.length === 0" class="favorites__empty">
-				<p>У вас пока нет избранных фильмов 😔</p>
-				<RouterLink to="/" class="favorites__link">Вернуться на главную</RouterLink>
-			</div>
-
-			<ul v-else class="favorites__list">
-				<FilmCard
-					v-for="(movie, index) in movies"
-					:key="movie.id"
-					:movie="movie"
-					:showNumber="false"
-					:index="index + 1"
-					:showRemove="true"
-					@remove="() => onRemoveFavorite(movie.id)"
-				/>
-			</ul>
+		<div v-else-if="loading" class="favorites__loading">
+			<FilmCardSkeleton v-for="n in 10" :key="n" />
 		</div>
+
+		<div v-else-if="movies.length === 0" class="favorites__empty">
+			<p>У вас пока нет избранных фильмов 😔</p>
+			<RouterLink to="/" class="favorites__link">Вернуться на главную</RouterLink>
+		</div>
+
+		<ul v-else class="favorites__list">
+			<FilmCard
+				v-for="(movie, index) in movies"
+				:key="movie.id"
+				:movie="movie"
+				:showNumber="false"
+				:index="index + 1"
+				:showRemove="true"
+				@remove="() => onRemoveFavorite(movie.id)"
+			/>
+		</ul>
 	</section>
 </template>
 

@@ -16,10 +16,28 @@
 <template>
 	<TheHeader />
 	<main>
-		<RouterView />
+		<Transition name="page" mode="out-in">
+			<RouterView />
+		</Transition>
+
 		<TrailerModal />
 	</main>
 	<TheFooter />
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+	.page-enter-active,
+	.page-leave-active {
+		transition:
+			opacity 0.4s ease,
+			transform 0.4s ease;
+	}
+	.page-enter-from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	.page-leave-to {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+</style>

@@ -84,7 +84,7 @@
 			border: 1px solid rgba(0, 0, 0, 0.4);
 			border-radius: 8px;
 			padding: 16px;
-			color: var(--color-white);
+			color: var(--color-black);
 			transition:
 				border-color 0.2s ease,
 				box-shadow 0.2s ease;
