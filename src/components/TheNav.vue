@@ -1,14 +1,20 @@
 <template>
 	<nav class="nav">
 		<ul class="nav__list">
-			<li class="nav__item">
+			<li class="nav__item desktop-only">
 				<RouterLink class="nav__link" activeClass="nav__link--active" to="/">Главная</RouterLink>
 			</li>
 
-			<li class="nav__item">
+			<li class="nav__item desktop-only">
 				<RouterLink class="nav__link" activeClass="nav__link--active" to="/genres"
 					>Жанры</RouterLink
 				>
+			</li>
+
+			<li class="nav__item mobile-only">
+				<RouterLink class="nav__link" activeClass="nav__link--active" to="/genres">
+					<BaseIcon name="dots" width="24" height="24" />
+				</RouterLink>
 			</li>
 		</ul>
 	</nav>
@@ -16,11 +22,16 @@
 
 <script setup lang="ts">
 	import { RouterLink } from 'vue-router'
+	import BaseIcon from './ui/BaseIcon.vue'
 </script>
 
 <style scoped lang="scss">
 	.nav {
 		margin-right: 40px;
+
+		@media (max-width: 768px) {
+			margin-right: 0;
+		}
 
 		&__list {
 			display: flex;
@@ -64,6 +75,22 @@
 					height: 1.5px;
 					background-color: #dc5dfc;
 				}
+			}
+		}
+
+		.mobile-only {
+			display: none;
+			width: 24px;
+			height: 24px;
+
+			@media (max-width: 1023px) {
+				display: block;
+			}
+		}
+
+		.desktop-only {
+			@media (max-width: 1023px) {
+				display: none;
 			}
 		}
 	}

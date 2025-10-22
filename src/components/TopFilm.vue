@@ -20,7 +20,13 @@
 				<p class="top-film__descr">{{ movie.plot }}</p>
 
 				<div class="top-film__controls">
-					<BaseButton type="button" variant="blue" size="big" @click="openTrailer">
+					<BaseButton
+						class="top-film__trailer"
+						type="button"
+						variant="blue"
+						size="big"
+						@click="openTrailer"
+					>
 						Трейлер
 					</BaseButton>
 
@@ -30,6 +36,7 @@
 						size="big"
 						type="button"
 						@click="goToMovie"
+						class="top-film__about"
 					>
 						О фильме
 					</BaseButton>
@@ -41,6 +48,7 @@
 						type="button"
 						aria-label="Добавить фильм в избранное"
 						@click.stop="toggleFavoriteHandler"
+						class="top-film__favorite"
 					/>
 
 					<BaseButton
@@ -50,6 +58,7 @@
 						icon="change"
 						type="button"
 						aria-label="Показать случайный фильм"
+						class="top-film__change"
 						@click="getRandomMovie"
 					/>
 				</div>
@@ -151,11 +160,27 @@
 		padding-top: 32px;
 		padding-bottom: 40px;
 
+		@media (max-width: 640px) {
+			padding-top: 0;
+			padding-bottom: 24px;
+		}
+
 		&__container {
 			display: grid;
-			grid-template-columns: 1fr 680px;
+			grid-template-columns: minmax(0, 580px) minmax(0, 680px);
 			align-items: center;
 			gap: 20px;
+
+			@media (max-width: 1200px) {
+				display: flex;
+				flex-direction: column;
+			}
+		}
+
+		&__info {
+			@media (max-width: 1200px) {
+				order: 2;
+			}
 		}
 
 		&__info-header {
@@ -164,8 +189,11 @@
 			gap: 16px;
 			margin-bottom: 16px;
 			font-weight: 400;
-
 			color: var(--color-white-07);
+
+			@media (max-width: 640px) {
+				gap: 12px;
+			}
 		}
 
 		&__name {
@@ -176,6 +204,10 @@
 			line-height: 113%;
 			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
+
+			@media (max-width: 640px) {
+				font-size: 24px;
+			}
 
 			&:hover {
 				color: var(--color-hover);
@@ -193,22 +225,65 @@
 			font-weight: 400;
 			font-size: 24px;
 			color: var(--color-white-07);
+
+			@media (max-width: 640px) {
+				font-size: 18px;
+				margin-bottom: 32px;
+			}
 		}
 
 		&__controls {
 			display: flex;
 			gap: 16px;
 			align-items: center;
+
+			@media (max-width: 640px) {
+				display: grid;
+				grid-template-columns: 1fr 68px 68px;
+				grid-template-rows: 1fr 1fr;
+				gap: 16px 16px;
+				grid-template-areas:
+					'trailer trailer trailer'
+					'about_button favorite_button change_button';
+			}
 		}
 
 		&__poster {
 			max-width: 680px;
+
+			@media (max-width: 1200px) {
+				max-width: 100%;
+				order: 1;
+			}
 		}
 
 		&__img {
 			width: 100%;
 			max-height: 552px;
 			border-radius: 16px;
+
+			@media (max-width: 640px) {
+				max-height: 338px;
+			}
+		}
+
+		@media (max-width: 640px) {
+			&__trailer {
+				grid-area: trailer;
+			}
+
+			&__about {
+				grid-area: about_button;
+				padding: 16px;
+			}
+
+			&__favorite {
+				grid-area: favorite_button;
+			}
+
+			&__change {
+				grid-area: change_button;
+			}
 		}
 	}
 </style>

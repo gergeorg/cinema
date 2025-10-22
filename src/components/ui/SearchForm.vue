@@ -1,9 +1,9 @@
 <template>
-	<form class="search" @submit.prevent>
+	<form ref="formRef" :class="['search', { 'search--overlay': overlayOpen }]" @submit.prevent>
 		<input
 			v-model="query"
 			@keydown="onKeydown"
-			@keydown.esc="close"
+			@keydown.esc="closeOverlay"
 			type="search"
 			:aria-activedescendant="activeDescendant"
 			aria-controls="search-dropdown"
@@ -17,12 +17,12 @@
 		/>
 
 		<BaseButton
-			v-if="query && results.length"
+			v-if="overlayOpen || (query && results.length)"
 			type="button"
 			variant="plain"
 			class="search__clear"
-			aria-label="Очистить поиск"
-			@click="clearQuery"
+			:aria-label="overlayOpen ? 'Закрыть поиск' : 'Очистить поиск'"
+			@click="overlayOpen ? closeOverlay() : clearQueryCloseOverlay()"
 		>
 			<BaseIcon width="24" height="24" name="close" />
 		</BaseButton>
@@ -46,11 +46,25 @@
 	import BaseIcon from './BaseIcon.vue'
 	import BaseButton from './BaseButton.vue'
 	import SearchDropdown from './SearchDropdown.vue'
-	import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+	import {
+		ref,
+		computed,
+		onMounted,
+		onBeforeUnmount,
+		watch,
+		defineProps,
+		defineEmits,
+		nextTick,
+	} from 'vue'
 	import { useRouter } from 'vue-router'
 	import { useMoviesStore } from '@/stores/useMoviesStore'
 	import type { IMovie } from '@/types'
 	import debounce from 'lodash/debounce'
+
+	const props = defineProps({
+		overlayOpen: { type: Boolean, default: false },
+	})
+	const emit = defineEmits(['update:overlayOpen'])
 
 	const router = useRouter()
 	const moviesStore = useMoviesStore()
@@ -72,6 +86,7 @@
 		focusFirst?: () => void
 	}
 	const dropdownRef = ref<DropdownExpose | null>(null)
+	const formRef = ref<HTMLFormElement | null>(null)
 
 	const search = async (q: string) => {
 		const queryText = q.trim()
@@ -111,7 +126,7 @@
 		if (e.key === 'Enter') {
 			const sel = results.value[activeIndex.value]
 			if (sel) goToMovie(sel.id)
-		} else if (e.key === 'Escape') close()
+		} else if (e.key === 'Escape') closeOverlay()
 	}
 
 	const onHover = (i: number) => (activeIndex.value = i)
@@ -122,17 +137,26 @@
 		results.value = []
 	}
 
-	const goToMovie = (id: string | number) => {
+	const closeOverlay = () => {
 		close()
+		query.value = ''
+		results.value = []
+		activeIndex.value = -1
+
+		if (props.overlayOpen) emit('update:overlayOpen', false)
+	}
+
+	const goToMovie = (id: string | number) => {
+		closeOverlay()
 		query.value = ''
 		router.push({ path: `/movies/${id}` })
 	}
 
 	const onDocClick = (e: MouseEvent) => {
 		const target = e.target as HTMLElement | null
-		const form = document.querySelector('.search')
+		const form = formRef.value
 		if (!form) return
-		if (target && !form.contains(target)) close()
+		if (target && !form.contains(target)) closeOverlay()
 	}
 
 	const clearQuery = () => {
@@ -142,6 +166,21 @@
 		activeIndex.value = -1
 		document.getElementById('search-input')?.focus()
 	}
+
+	const clearQueryCloseOverlay = () => {
+		clearQuery()
+		if (props.overlayOpen) emit('update:overlayOpen', false)
+	}
+
+	watch(
+		() => props.overlayOpen,
+		async (val) => {
+			if (val) {
+				await nextTick()
+				document.getElementById('search-input')?.focus()
+			}
+		},
+	)
 
 	onMounted(() => document.addEventListener('click', onDocClick))
 	onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
@@ -164,7 +203,7 @@
 
 		&__input {
 			border-radius: 8px;
-			width: 655px;
+			width: 100%;
 			padding: 12px 16px 12px 52px;
 			background-color: #393b3c;
 			border: none;
@@ -196,6 +235,10 @@
 			border: none;
 			cursor: pointer;
 
+			@media (max-width: 768px) {
+				left: 30px;
+			}
+
 			svg {
 				fill: var(--color-white);
 				fill-opacity: 0.5;
@@ -203,7 +246,27 @@
 		}
 
 		&__clear {
-			opacity: 0;
+			padding: 0;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			right: 16px;
+			outline: none;
+			background: none;
+			border: none;
+			cursor: pointer;
+
+			@media (max-width: 768px) {
+				right: 30px;
+			}
+
+			svg {
+				fill: var(--color-white);
+				fill-opacity: 0.5;
+			}
+		}
+
+		&__overlay-close {
 			padding: 0;
 			position: absolute;
 			top: 50%;
@@ -216,8 +279,38 @@
 
 			svg {
 				fill: var(--color-white);
-				fill-opacity: 0.5;
+				fill-opacity: 0.9;
 			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		.search {
+			display: none;
+		}
+
+		.search--overlay {
+			display: block;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 8px;
+			height: 56px;
+			padding: 0px 20px;
+			pointer-events: auto;
+			z-index: 1201;
+			display: flex;
+			align-items: center;
+			transform: translateY(-6px);
+			opacity: 0;
+			transition:
+				transform 220ms ease,
+				opacity 220ms ease;
+		}
+
+		.search--overlay {
+			transform: translateY(0);
+			opacity: 1;
 		}
 	}
 </style>

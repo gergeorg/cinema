@@ -55,13 +55,16 @@
 		border-radius: 16px;
 		background-color: #3c3c3c;
 		box-shadow: 0 0 80px 0 rgba(255, 255, 255, 0.33);
-		transition:
-			box-shadow 0.3s ease-in-out,
-			transform 0.3s ease-in-out;
+
+		position: relative;
+		overflow: visible;
 
 		&__link {
 			display: block;
 			border-radius: 16px;
+			transition:
+				transform 0.3s ease-in-out,
+				box-shadow 0.3s ease-in-out;
 
 			&:hover,
 			&:focus-visible {

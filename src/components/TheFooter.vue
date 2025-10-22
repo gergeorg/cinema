@@ -9,7 +9,7 @@
 						aria-label="Наша страница в VK"
 						target="_blank"
 					>
-						<BaseIcon width="19" height="11" name="vk" />
+						<BaseIcon class="vk" width="19" height="11" name="vk" />
 					</a>
 				</li>
 
@@ -20,7 +20,7 @@
 						aria-label="Наш youtube канал"
 						target="_blank"
 					>
-						<BaseIcon width="16" height="12" name="yt" />
+						<BaseIcon class="yt" width="16" height="12" name="yt" />
 					</a>
 				</li>
 
@@ -31,7 +31,7 @@
 						aria-label="Наша страница в одноклассниках"
 						target="_blank"
 					>
-						<BaseIcon width="12" height="19" name="ok" />
+						<BaseIcon class="ok" width="12" height="19" name="ok" />
 					</a>
 				</li>
 
@@ -42,7 +42,7 @@
 						aria-label="Наш канал в telegtam"
 						target="_blank"
 					>
-						<BaseIcon width="17" height="15" name="tg" />
+						<BaseIcon class="tg" width="17" height="15" name="tg" />
 					</a>
 				</li>
 			</ul>
@@ -58,10 +58,18 @@
 	.footer {
 		padding: 40px 0;
 
+		@media (max-width: 640px) {
+			padding: 24px 0;
+		}
+
 		&__social-list {
 			display: flex;
 			justify-content: flex-end;
 			gap: 24px;
+
+			@media (max-width: 640px) {
+				justify-content: flex-start;
+			}
 		}
 
 		&__social-icon {
@@ -78,6 +86,11 @@
 			border-radius: 8px;
 			border: 1px solid rgba(255, 255, 255, 0.8);
 			transition: border 0.3s ease-in-out;
+
+			@media (max-width: 640px) {
+				width: 24px;
+				height: 24px;
+			}
 
 			&:hover {
 				border: 1px solid var(--color-hover);
@@ -96,6 +109,28 @@
 		.icon {
 			color: var(--color-white);
 			transition: color 0.3s ease-in-out;
+		}
+
+		@media (max-width: 640px) {
+			.vk {
+				width: 13px;
+				height: 7px;
+			}
+
+			.yt {
+				width: 12px;
+				height: 8px;
+			}
+
+			.ok {
+				width: 7px;
+				height: 11px;
+			}
+
+			.tg {
+				width: 12px;
+				height: 10px;
+			}
 		}
 	}
 </style>

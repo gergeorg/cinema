@@ -5,14 +5,28 @@
 				<img src="@/assets/logo.png" alt="Логотип онлайн-кинотеатра 'Маруся'" />
 			</RouterLink>
 
-			<TheNav />
-			<SearchForm class="header__search" />
+			<div class="header__controls">
+				<TheNav />
 
-			<button v-if="!isAuthenticated" @click="openLogin" class="header__button">Войти</button>
+				<BaseButton
+					type="button"
+					variant="plain"
+					class="header__mobile-search mobile-only"
+					aria-label="Открыть поиск"
+					@click.stop="openMobileSearch"
+				>
+					<BaseIcon name="search" width="24" height="24" />
+				</BaseButton>
 
-			<RouterLink v-else to="/profile" class="header__button">
-				{{ authStore.user?.name }}
-			</RouterLink>
+				<SearchForm class="header__search" v-model:overlayOpen="mobileSearchOpen" />
+
+				<button v-if="!isAuthenticated" @click="openLogin" class="header__button">Войти</button>
+
+				<RouterLink v-else to="/profile" class="header__button">
+					<span class="desktop-only">{{ authStore.user?.name }}</span>
+					<BaseIcon class="mobile-only" name="user" width="24" height="24" />
+				</RouterLink>
+			</div>
 		</div>
 
 		<LoginModal
@@ -49,6 +63,8 @@
 
 	import { useAuthStore } from '../stores/useAuthStore'
 	import { useFavoritesStore } from '@/stores/useFavoritesStore'
+	import BaseIcon from './ui/BaseIcon.vue'
+	import BaseButton from './ui/BaseButton.vue'
 
 	const authStore = useAuthStore()
 	const { isAuthenticated } = storeToRefs(authStore)
@@ -57,6 +73,12 @@
 	const isLoginOpen = ref(false)
 	const isRegisterOpen = ref(false)
 	const isSuccessOpen = ref(false)
+	const mobileSearchOpen = ref(false)
+
+	const openMobileSearch = () => {
+		mobileSearchOpen.value = true
+		window.dispatchEvent(new CustomEvent('open-search-overlay'))
+	}
 
 	const openLogin = () => {
 		isLoginOpen.value = true
@@ -108,14 +130,42 @@
 <style scoped lang="scss">
 	.header {
 		padding: 24px 0;
+		z-index: 1000;
+
+		@media (max-width: 768px) {
+			padding: 16px 0;
+		}
 
 		&__container {
 			display: flex;
 			align-items: center;
+			gap: 80px;
+			justify-content: space-between;
+
+			@media (max-width: 768px) {
+			}
+		}
+
+		&__controls {
+			display: grid;
+			grid-template-columns: 1fr minmax(0, 655px) auto;
+			align-items: center;
+
+			@media (max-width: 768px) {
+				grid-template-columns: repeat(3, 24px);
+				justify-items: end;
+				align-items: center;
+				gap: 20px;
+			}
 		}
 
 		&__logo {
-			margin-right: 80px;
+			img {
+				@media (max-width: 768px) {
+					width: 81px;
+					height: 18px;
+				}
+			}
 
 			&:focus-visible {
 				outline: 1px solid var(--color-hover);
@@ -126,6 +176,14 @@
 
 		&__search {
 			margin-right: 80px;
+
+			@media (max-width: 768px) {
+				margin-right: 0;
+			}
+		}
+
+		&__mobile-search {
+			fill: var(--color-white);
 		}
 
 		&__button {
@@ -137,6 +195,11 @@
 			background: transparent;
 			border: none;
 			cursor: pointer;
+			max-width: 200px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: inline-block;
 
 			&:hover {
 				color: var(--color-hover);
@@ -150,6 +213,20 @@
 				outline: 1px solid var(--color-hover);
 				outline-offset: 4px;
 				border-radius: 2px;
+			}
+		}
+
+		.mobile-only {
+			display: none;
+
+			@media (max-width: 768px) {
+				display: block;
+			}
+		}
+
+		.desktop-only {
+			@media (max-width: 768px) {
+				display: none;
 			}
 		}
 	}
