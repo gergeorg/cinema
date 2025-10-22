@@ -20,7 +20,10 @@
 
 				<SearchForm class="header__search" v-model:overlayOpen="mobileSearchOpen" />
 
-				<button v-if="!isAuthenticated" @click="openLogin" class="header__button">Войти</button>
+				<button v-if="!isAuthenticated" @click="openLogin" class="header__button">
+					<span class="desktop-only">Войти</span>
+					<BaseIcon class="mobile-only" name="user" width="24" height="24" />
+				</button>
 
 				<RouterLink v-else to="/profile" class="header__button">
 					<span class="desktop-only">{{ authStore.user?.name }}</span>
