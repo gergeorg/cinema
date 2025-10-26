@@ -1,6 +1,8 @@
 <template>
-	<TopFilm />
-	<TopList />
+	<div class="home-view">
+		<TopFilm />
+		<TopList />
+	</div>
 </template>
 
 <style></style>

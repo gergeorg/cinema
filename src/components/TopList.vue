@@ -14,7 +14,6 @@
 			</template>
 
 			<template v-else>
-				<!-- Десктоп -->
 				<ul class="top-list__list">
 					<FilmCard
 						v-for="(movie, i) in top10"
@@ -25,13 +24,17 @@
 					/>
 				</ul>
 
-				<!-- Мобильный Swiper -->
 				<div class="top-list__swiper-wrap">
 					<Swiper
 						class="top-list__swiper"
 						slides-per-view="auto"
-						:space-between="24"
-						:breakpoints="swiperBreakpoints"
+						:space-between="40"
+						:breakpoints="{
+							1200: { slidesPerView: 'auto', spaceBetween: 40 },
+							768: { slidesPerView: 'auto', spaceBetween: 40 },
+							0: { slidesPerView: 'auto', spaceBetween: 40 },
+						}"
+						:watch-overflow="true"
 					>
 						<SwiperSlide v-for="(movie, i) in top10" :key="movie.id">
 							<FilmCard :movie="movie" :index="i + 1" :showNumber="true" />
@@ -59,24 +62,12 @@
 	onMounted(() => {
 		moviesStore.fetchTop10()
 	})
-
-	// ✅ Оптимизированные брейкпоинты
-	const swiperBreakpoints = {
-		1200: {
-			spaceBetween: 40,
-		},
-		768: {
-			spaceBetween: 40,
-		},
-		680: {
-			spaceBetween: 40,
-		},
-	}
 </script>
 
 <style scoped lang="scss">
 	.top-list {
 		padding-bottom: 120px;
+		overflow-x: clip;
 
 		@media (max-width: 640px) {
 			padding-bottom: 32px;
@@ -95,7 +86,6 @@
 			}
 		}
 
-		/* --- Десктоп --- */
 		&__list {
 			display: grid;
 			grid-template-columns: repeat(5, 1fr);
@@ -106,40 +96,43 @@
 			}
 		}
 
-		/* --- Swiper-обёртка --- */
 		&__swiper-wrap {
 			display: none;
 
 			@media (max-width: 1200px) {
 				display: block;
-				margin-left: -40px; /* выносим за пределы контейнера */
-				margin-right: 0px;
+				margin-left: -40px;
+				margin-right: -40px;
 				padding-left: 40px;
-				// overflow: hidden; /* обрезаем за пределами контейнера */
+				padding-right: 40px;
+				position: relative;
+				overflow: visible;
+				z-index: 1;
 			}
-		}
-
-		&__swiper {
-			overflow: visible !important;
 		}
 
 		:deep(.swiper) {
 			overflow: visible !important;
+			z-index: 2;
 		}
 
 		:deep(.swiper-wrapper) {
 			overflow: visible !important;
+			z-index: 3;
 		}
 
 		:deep(.swiper-slide) {
-			width: 224px !important; /* фикс ширина карточки */
+			width: 224px !important;
 			flex-shrink: 0;
-			overflow: visible !important;
 			position: relative;
+			overflow: visible !important;
+			z-index: 4;
 		}
 
 		:deep(.film-card) {
 			overflow: visible !important;
+			position: relative;
+			z-index: 5;
 		}
 	}
 </style>

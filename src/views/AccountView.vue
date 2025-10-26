@@ -2,9 +2,27 @@
 	import AccountFavorites from '@/components/AccountFavorites.vue'
 	import AccountSettings from '@/components/AccountSettings.vue'
 	import BaseButton from '@/components/ui/BaseButton.vue'
-	import { ref } from 'vue'
+	import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 	const activeTab = ref<'settings' | 'favorites'>('favorites')
+	const isMobile = ref(false)
+
+	const checkWidth = () => {
+		isMobile.value = window.innerWidth <= 640
+	}
+
+	onMounted(() => {
+		checkWidth()
+		window.addEventListener('resize', checkWidth)
+	})
+
+	onUnmounted(() => {
+		window.removeEventListener('resize', checkWidth)
+	})
+
+	const favoritesLabel = computed(() => (isMobile.value ? 'Избранное' : 'Избранные фильмы'))
+
+	const settingsLabel = computed(() => (isMobile.value ? 'Настройки' : 'Настройка аккаунта'))
 </script>
 
 <template>
@@ -21,7 +39,7 @@
 					@click="activeTab = 'favorites'"
 					:active="activeTab === 'favorites'"
 				>
-					Избранные фильмы
+					{{ favoritesLabel }}
 				</BaseButton>
 			</li>
 
@@ -34,7 +52,7 @@
 					@click="activeTab = 'settings'"
 					:active="activeTab === 'settings'"
 				>
-					Настройка аккаунта
+					{{ settingsLabel }}
 				</BaseButton>
 			</li>
 		</ul>
@@ -52,12 +70,21 @@
 			font-size: 48px;
 			line-height: 117%;
 			color: var(--color-white);
+
+			@media (max-width: 640px) {
+				margin: 0 0 40px;
+				font-size: 24px;
+			}
 		}
 
 		&__tabs {
 			display: flex;
 			gap: 64px;
 			margin-bottom: 64px;
+
+			@media (max-width: 640px) {
+				gap: 24px;
+			}
 		}
 
 		&__tab {

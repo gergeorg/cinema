@@ -62,7 +62,7 @@
 	.base-input {
 		position: relative;
 		display: block;
-		width: 100%;
+		min-width: 100%;
 		max-width: 340px;
 
 		&__icon {

@@ -18,9 +18,7 @@
 			</ul>
 
 			<ul v-else class="genre__list">
-				<li v-for="movie in movies" :key="movie.id" class="genre__item">
-					<FilmCard :movie="movie" />
-				</li>
+				<FilmCard v-for="movie in movies" :key="movie.id" class="genre__item" :movie="movie" />
 
 				<li v-if="!movies.length" class="genre__empty">Фильмы не найдены 😔</li>
 			</ul>
@@ -86,8 +84,27 @@
 
 		&__list {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(224px, 1fr));
+			grid-template-columns: repeat(5, 1fr);
 			gap: 64px 40px;
+
+			@media (max-width: 1400px) {
+				grid-template-columns: repeat(4, 1fr);
+			}
+
+			@media (max-width: 1100px) {
+				grid-template-columns: repeat(3, 1fr);
+			}
+
+			@media (max-width: 800px) {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 48px 32px;
+			}
+
+			@media (max-width: 500px) {
+				grid-template-columns: repeat(1, 1fr);
+				justify-items: center;
+				gap: 40px 0;
+			}
 		}
 
 		&__item {

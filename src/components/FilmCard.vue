@@ -26,8 +26,6 @@
 	</li>
 </template>
 
-<!-- id="icon-close"  -->
-
 <script setup lang="ts">
 	import { RouterLink } from 'vue-router'
 	import type { IMovie } from '@/types'
@@ -55,9 +53,15 @@
 		border-radius: 16px;
 		background-color: #3c3c3c;
 		box-shadow: 0 0 80px 0 rgba(255, 255, 255, 0.33);
-
-		position: relative;
 		overflow: visible;
+		z-index: 4 !important;
+		transition:
+			box-shadow 0.3s ease-in-out,
+			transform 0.3s ease-in-out;
+
+		@media (max-width: 1200px) {
+			box-shadow: none;
+		}
 
 		&__link {
 			display: block;
@@ -65,6 +69,7 @@
 			transition:
 				transform 0.3s ease-in-out,
 				box-shadow 0.3s ease-in-out;
+			will-change: transform, box-shadow;
 
 			&:hover,
 			&:focus-visible {
@@ -94,12 +99,15 @@
 			font-size: 24px;
 			color: var(--color-violet);
 			background-color: var(--color-white);
+			z-index: 10;
+			pointer-events: none;
 		}
 
 		&__image {
-			max-width: 224px;
+			min-width: 224px;
 			width: 100%;
-			height: 336px;
+			height: 100%;
+			min-height: 336px;
 			object-fit: cover;
 			border-radius: 16px;
 		}
@@ -124,6 +132,7 @@
 			transform: translateY(-6px) scale(0.96);
 			opacity: 0;
 			pointer-events: none;
+			z-index: 11;
 		}
 
 		&--hoverable {

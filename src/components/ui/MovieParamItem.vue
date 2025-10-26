@@ -31,6 +31,10 @@
 		font-weight: 400;
 		color: var(--color-white);
 
+		@media (max-width: 640px) {
+			max-width: 100%;
+		}
+
 		&__title {
 			flex-shrink: 0;
 			padding-right: 8px;

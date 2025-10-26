@@ -78,12 +78,21 @@
 		width: 420px;
 		position: relative;
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+		@media (max-width: 640px) {
+			padding: 64px 20px 32px;
+			width: 80%;
+		}
 	}
 
 	.modal-logo {
 		display: block;
 		margin: 0 auto 40px;
 		width: 132px;
+
+		@media (max-width: 640px) {
+			margin: 0 auto 32px;
+		}
 	}
 
 	.close-btn {
@@ -95,12 +104,17 @@
 		width: 48px;
 		height: 48px;
 		background: var(--color-white);
+
+		@media (max-width: 640px) {
+			top: 8px;
+			right: 8px;
+		}
 	}
 
 	.modal-title {
 		font-weight: 700;
 		font-size: 24px;
-		color: var(--color-white);
+		color: var(--color-black);
 		margin: 0 0 24px;
 		text-align: center;
 	}

@@ -73,12 +73,17 @@
 		position: absolute;
 		top: calc(100% + 12px);
 		right: 0;
-		width: 720px;
 		background-color: #393b3c;
 		border-radius: 8px;
 		padding: 8px;
-		max-width: 559px;
+		min-width: 559px;
 		z-index: 30;
+
+		@media (max-width: 768px) {
+			left: 20px;
+			right: 20px;
+			min-width: 0;
+		}
 
 		&__item {
 			display: flex;

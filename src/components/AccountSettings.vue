@@ -1,13 +1,17 @@
 <template>
 	<div class="account">
 		<div class="account__wrapper">
-			<div class="account__avatar account__initials">{{ initials }}</div>
+			<div class="account__avatar">
+				<div class="account__initials">{{ initials }}</div>
+			</div>
 			<span class="account__title">Имя Фамилия</span>
 			<span class="account__value">{{ `${user?.name} ${user?.surname}` }}</span>
 		</div>
 
 		<div class="account__wrapper">
-			<div class="account__avatar account__icon"></div>
+			<div class="account__avatar">
+				<BaseIcon name="email" width="24" height="24" class="account__email" />
+			</div>
 			<span class="account__title">Электронная почта</span>
 			<span class="account__value">{{ user?.email }}</span>
 		</div>
@@ -23,6 +27,7 @@
 	import { computed } from 'vue'
 	import { useRouter } from 'vue-router'
 	import BaseButton from './ui/BaseButton.vue'
+	import BaseIcon from './ui/BaseIcon.vue'
 
 	const authStore = useAuthStore()
 	const { user } = storeToRefs(authStore)
@@ -49,6 +54,11 @@
 		flex-direction: column;
 		gap: 40px;
 		max-width: 50%;
+
+		@media (max-width: 640px) {
+			max-width: 100%;
+			margin-bottom: 40px;
+		}
 
 		&__wrapper {
 			display: grid;
@@ -79,6 +89,10 @@
 			align-self: end;
 			font-weight: 400;
 			color: var(--color-white);
+
+			@media (max-width: 640px) {
+				font-size: 14px;
+			}
 		}
 
 		&__value {
@@ -86,6 +100,10 @@
 			font-weight: 700;
 			font-size: 24px;
 			color: var(--color-white);
+
+			@media (max-width: 640px) {
+				font-size: 18px;
+			}
 		}
 	}
 </style>

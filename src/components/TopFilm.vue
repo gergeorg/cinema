@@ -19,7 +19,7 @@
 
 				<p class="top-film__descr">{{ movie.plot }}</p>
 
-				<div class="top-film__controls">
+				<div :class="['top-film__controls', { 'top-film__controls--movie': isMovieView }]">
 					<BaseButton
 						class="top-film__trailer"
 						type="button"
@@ -245,6 +245,13 @@
 				grid-template-areas:
 					'trailer trailer trailer'
 					'about_button favorite_button change_button';
+			}
+
+			&--movie {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 12px;
 			}
 		}
 

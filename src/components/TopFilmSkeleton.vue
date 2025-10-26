@@ -1,20 +1,19 @@
 <template>
-	<div class="container top-film__container">
-		<div class="top-film__info">
-			<div class="skeleton skeleton--title"></div>
-			<div class="skeleton skeleton--text"></div>
-			<div class="skeleton skeleton--text short"></div>
-			<div class="skeleton--buttons">
-				<div class="skeleton skeleton--btn"></div>
-				<div class="skeleton skeleton--btn"></div>
-				<div class="skeleton skeleton--btn small"></div>
-				<div class="skeleton skeleton--btn small"></div>
+	<div class="skeleton__container container">
+		<div class="skeleton__info">
+			<div class="skeleton skeleton__title"></div>
+			<div class="skeleton skeleton__text short"></div>
+			<div class="skeleton skeleton__text short"></div>
+
+			<div class="skeleton__buttons">
+				<div class="skeleton skeleton__btn"></div>
+				<div class="skeleton skeleton__btn"></div>
+				<div class="skeleton skeleton__btn small"></div>
+				<div class="skeleton skeleton__btn small"></div>
 			</div>
 		</div>
 
-		<div class="top-film__poster">
-			<div class="skeleton skeleton--poster"></div>
-		</div>
+		<div class="skeleton__poster skeleton"></div>
 	</div>
 </template>
 
@@ -40,13 +39,28 @@
 			animation: shimmer var(--skeleton-shimmer-duration) infinite;
 		}
 
-		&--title {
+		&__container {
+			display: flex;
+			gap: 40px;
+
+			@media (max-width: 768px) {
+				flex-direction: column;
+			}
+		}
+
+		&__info {
+			@media (max-width: 768px) {
+				order: 2;
+			}
+		}
+
+		&__title {
 			width: 80%;
 			height: 48px;
 			margin: 16px 0;
 		}
 
-		&--text {
+		&__text {
 			width: 100%;
 			height: 20px;
 
@@ -55,14 +69,14 @@
 			}
 		}
 
-		&--buttons {
+		&__buttons {
 			display: flex;
 			gap: 16px;
 			margin-top: 40px;
 			background-color: transparent;
 		}
 
-		&--btn {
+		&__btn {
 			width: 140px;
 			height: 48px;
 			border-radius: 12px;
@@ -73,10 +87,15 @@
 			}
 		}
 
-		&--poster {
+		&__poster {
 			width: 100%;
 			height: 552px;
 			border-radius: 16px;
+
+			@media (max-width: 768px) {
+				order: 1;
+				height: 250px;
+			}
 		}
 	}
 </style>

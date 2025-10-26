@@ -16,9 +16,11 @@
 <template>
 	<TheHeader />
 	<main>
-		<Transition name="page" mode="out-in">
-			<RouterView />
-		</Transition>
+		<RouterView v-slot="{ Component }">
+			<Transition name="page" mode="out-in">
+				<component :is="Component" />
+			</Transition>
+		</RouterView>
 
 		<TrailerModal />
 	</main>

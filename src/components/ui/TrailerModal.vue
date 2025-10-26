@@ -6,8 +6,6 @@
 					class="modal__iframe"
 					v-if="embedUrl"
 					:src="embedUrl"
-					width="100%"
-					height="540"
 					frameborder="0"
 					allowfullscreen
 					allow="autoplay; encrypted-media"
@@ -41,7 +39,9 @@
 		if (!trailerUrl.value) return ''
 		const match =
 			trailerUrl.value.match(/v=([^&]+)/) || trailerUrl.value.match(/youtu\.be\/([^?&]+)/)
-		return match ? `https://www.youtube.com/embed/${match[1]}?autoplay=1` : trailerUrl.value
+		return match
+			? `https://www.youtube.com/embed/${match[1]}?autoplay=1&modestbranding=1&rel=0&showinfo=0`
+			: trailerUrl.value
 	})
 
 	onMounted(() => {
@@ -73,10 +73,21 @@
 		background: var(--color-white);
 		border-radius: 12px;
 		width: 80%;
-		width: 960px;
+		max-width: 960px;
 
 		&__wrapper {
 			position: relative;
+			padding-top: 56.25%;
+		}
+
+		&__iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border: none;
+			border-radius: 12px;
 		}
 	}
 
@@ -94,5 +105,13 @@
 		width: 48px;
 		height: 48px;
 		background-color: var(--color-white);
+		z-index: 1001;
+
+		@media (max-width: 640px) {
+			top: -20px;
+			right: -20px;
+			width: 32px;
+			height: 32px;
+		}
 	}
 </style>

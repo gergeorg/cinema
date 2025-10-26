@@ -14,6 +14,7 @@
 				<li v-for="genre in genres" :key="genre" class="genres__item">
 					<RouterLink :to="`/genres/${genre}`" class="genre-card">
 						<img :src="getPoster(genre)" :alt="genre" class="genre-card__img" loading="lazy" />
+
 						<span class="genre-card__name">{{ genre }}</span>
 					</RouterLink>
 				</li>
@@ -31,7 +32,7 @@
 	import TheError from '@/components/TheError.vue'
 
 	const moviesStore = useMoviesStore()
-	const { genres, loadingGenres, errorGenres, allMovies, loadingAllMovies, errorAllMovies } =
+	const { genres, loadingGenres, errorGenres, loadingAllMovies, errorAllMovies } =
 		storeToRefs(moviesStore)
 
 	const loading = computed(() => loadingGenres.value || loadingAllMovies.value)
@@ -44,19 +45,13 @@
 
 	onMounted(fetchData)
 
-	// Берём последнее изображение backdropUrl для фильм жанра
 	const getPoster = (genre: string) => {
-		const moviesOfGenre = allMovies.value.filter((m) => m.genres.includes(genre))
-		const lastMovie = moviesOfGenre[moviesOfGenre.length - 1]
-		return lastMovie?.backdropUrl ?? placeholder
+		try {
+			return new URL(`../assets/genres/${genre}.jpg`, import.meta.url).href
+		} catch {
+			return placeholder
+		}
 	}
-
-	// Берём первое изображение backdropUrl для фильм жанра
-
-	// const getPoster = (genre: string) => {
-	// 	const movie = allMovies.value.find((m) => m.genres.includes(genre))
-	// 	return movie?.backdropUrl ?? placeholder
-	// }
 </script>
 
 <style scoped lang="scss">
@@ -64,17 +59,27 @@
 		padding: 40px 0;
 
 		&__title {
+			margin-top: 0;
 			margin-bottom: 64px;
 			font-weight: 700;
 			font-size: 48px;
 			line-height: 117%;
 			color: var(--color-white);
+
+			@media (max-width: 768px) {
+				font-size: 24px;
+				margin-bottom: 40px;
+			}
 		}
 
 		&__list {
 			display: grid;
 			grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
 			gap: 40px;
+
+			@media (max-width: 678px) {
+				gap: 24px;
+			}
 		}
 
 		&__item {
@@ -115,10 +120,13 @@
 			}
 
 			&__img {
-				width: 290px;
 				height: 220px;
 				border-radius: 24px;
 				background-color: #616161;
+
+				@media (max-width: 1024px) {
+					width: 100%;
+				}
 			}
 
 			&__name {
