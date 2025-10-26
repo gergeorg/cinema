@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
 import axios from 'axios'
 
 async function checkApiConnection() {
@@ -15,10 +14,18 @@ async function checkApiConnection() {
 }
 
 export default defineConfig(async ({ mode }) => {
-	if (mode === 'development') await checkApiConnection()
+	if (mode === 'development') {
+		await checkApiConnection()
+	}
+
+	const devPlugins = []
+	if (mode === 'development') {
+		const { default: vueDevTools } = await import('vite-plugin-vue-devtools')
+		devPlugins.push(vueDevTools())
+	}
 
 	return {
-		plugins: [vue(), ...(mode === 'development' ? [vueDevTools()] : [])],
+		plugins: [vue(), ...devPlugins],
 		define: {
 			__VUE_PROD_DEVTOOLS__: false,
 		},
