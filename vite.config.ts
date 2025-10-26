@@ -4,26 +4,21 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import axios from 'axios'
 
-// Проверка соединения с API при старте dev-сервера
 async function checkApiConnection() {
+	if (process.env.NODE_ENV !== 'development') return
 	try {
 		const res = await axios.get('https://cinemaguide.skillbox.cc/api/movies', { timeout: 3000 })
 		console.log(`✅ API доступен (${res.status})`)
-	} catch (error) {
+	} catch {
 		console.warn('⚠️  Не удалось подключиться к API https://cinemaguide.skillbox.cc')
-		if (error.code === 'ECONNREFUSED' || error.message.includes('ENOTFOUND')) {
-			console.warn('Проверь, что у тебя есть интернет или сервер доступен.')
-		}
 	}
 }
 
-export default defineConfig(async () => {
-	if (process.env.NODE_ENV === 'development') {
-		await checkApiConnection()
-	}
+export default defineConfig(async ({ mode }) => {
+	if (mode === 'development') await checkApiConnection()
 
 	return {
-		plugins: [vue(), vueDevTools()],
+		plugins: [vue(), ...(mode === 'development' ? [vueDevTools()] : [])],
 		define: {
 			__VUE_PROD_DEVTOOLS__: false,
 		},
