@@ -50,6 +50,11 @@
 			flex-shrink: 0;
 			text-align: left;
 			white-space: nowrap;
+
+			@media (max-width: 1200px) {
+				max-width: 200px;
+				white-space: normal;
+			}
 		}
 	}
 </style>

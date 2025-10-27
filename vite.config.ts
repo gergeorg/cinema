@@ -7,11 +7,7 @@ export default defineConfig(({ mode }) => {
 	const isDev = mode === 'development'
 
 	const config: UserConfig = {
-		plugins: [
-			vue(),
-			// В dev включаем devtools, в prod — выключаем
-			isDev ? vueDevTools() : undefined,
-		].filter(Boolean) as any, // <-- убираем ошибку типов
+		plugins: [vue(), isDev ? vueDevTools() : undefined].filter(Boolean) as any,
 
 		define: {
 			__VUE_PROD_DEVTOOLS__: false,
