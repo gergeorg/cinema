@@ -2,7 +2,7 @@
 	<header class="header">
 		<div class="header__container container">
 			<RouterLink class="header__logo" to="/">
-				<img src="@/assets/logo.png" alt="Логотип онлайн-кинотеатра 'Маруся'" />
+				<img src="@/assets/img/logo.png" alt="Логотип онлайн-кинотеатра 'Маруся'" />
 			</RouterLink>
 
 			<div class="header__controls">

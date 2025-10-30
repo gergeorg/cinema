@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 	import type { IMovie } from '@/types'
-	import placeholder from '@/assets/no-poster.png'
+	import placeholder from '@/assets/img/no-poster.png'
 	import { ref, computed, defineExpose } from 'vue'
 	import TheRating from './TheRating.vue'
 

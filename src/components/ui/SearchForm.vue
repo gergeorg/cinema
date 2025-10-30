@@ -146,10 +146,18 @@
 		if (props.overlayOpen) emit('update:overlayOpen', false)
 	}
 
-	const goToMovie = (id: string | number) => {
+	const goToMovie = async (id: string | number) => {
 		closeOverlay()
 		query.value = ''
-		router.push({ path: `/movies/${id}` })
+
+		if (
+			router.currentRoute.value.name === 'movie' &&
+			router.currentRoute.value.params.id === String(id)
+		) {
+			await router.replace({ name: 'movie', params: { id }, query: { r: Date.now() } })
+		} else {
+			await router.push({ name: 'movie', params: { id } })
+		}
 	}
 
 	const onDocClick = (e: MouseEvent) => {

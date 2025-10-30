@@ -11,14 +11,26 @@ type SearchFormPublic = {
 	results: Array<{ title: string }>
 	open: boolean
 	query: string
-	goToMovie: (id: number) => void
+	goToMovie: (id: number | string) => Promise<void>
 	activeIndex: number
 	onHover: (index: number) => void
+	closeOverlay: () => void
 }
 
 const push = vi.fn()
+const replace = vi.fn()
+
 vi.mock('vue-router', () => ({
-	useRouter: () => ({ push }),
+	useRouter: () => ({
+		push,
+		replace,
+		currentRoute: {
+			value: {
+				name: 'home',
+				params: {},
+			},
+		},
+	}),
 }))
 
 vi.mock('@/stores/useMoviesStore', () => ({
@@ -84,7 +96,7 @@ describe('SearchForm', () => {
 
 		wrapper.vm.goToMovie(1)
 		expect(push).toHaveBeenCalledTimes(1)
-		expect(push).toHaveBeenCalledExactlyOnceWith({ path: '/movies/1' })
+		expect(push).toHaveBeenCalledExactlyOnceWith({ name: 'movie', params: { id: 1 } })
 		expect(wrapper.vm.query).toBe('')
 		expect(wrapper.vm.open).toBe(false)
 	})

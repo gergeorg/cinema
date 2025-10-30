@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-	const spriteUrl = new URL('@/assets/sprite.svg', import.meta.url).href
+	const spriteUrl = new URL('@/assets/img/sprite.svg', import.meta.url).href
 
 	const {
 		name,

@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-	import { onMounted, computed } from 'vue'
+	import { onMounted, computed, ref, watch } from 'vue'
 	import { useRoute } from 'vue-router'
 	import { useMoviesStore } from '@/stores/useMoviesStore'
 	import TopFilm from '@/components/TopFilm.vue'
@@ -41,19 +41,31 @@
 	import TheError from '@/components/TheError.vue'
 
 	const route = useRoute()
-	const movieId = route.params.id as string
-
 	const moviesStore = useMoviesStore()
 
+	const movieId = ref(route.params.id as string)
 	const movie = computed(() => moviesStore.selectedMovie)
 	const loading = computed(() => moviesStore.loadingSelected)
 	const error = computed(() => moviesStore.errorSelected)
 
+	const fetchMovie = async (id: string) => {
+		if (!id) return
+		await moviesStore.fetchMovieById(id, true)
+	}
+
 	onMounted(async () => {
-		if (movieId) {
-			await moviesStore.fetchMovieById(movieId, true)
-		}
+		await fetchMovie(movieId.value)
 	})
+
+	watch(
+		() => route.params.id,
+		async (newId, oldId) => {
+			if (newId && newId !== oldId) {
+				movieId.value = newId as string
+				await fetchMovie(movieId.value)
+			}
+		},
+	)
 </script>
 
 <style scoped lang="scss">

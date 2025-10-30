@@ -30,7 +30,7 @@
 	import { RouterLink } from 'vue-router'
 	import type { IMovie } from '@/types'
 	import { withDefaults, defineProps } from 'vue'
-	import placeholder from '@/assets/no-poster.png'
+	import placeholder from '@/assets/img/no-poster.png'
 	import BaseIcon from './ui/BaseIcon.vue'
 
 	const props = withDefaults(
@@ -70,6 +70,7 @@
 				transform 0.3s ease-in-out,
 				box-shadow 0.3s ease-in-out;
 			will-change: transform, box-shadow;
+			height: 100%;
 
 			&:hover,
 			&:focus-visible {

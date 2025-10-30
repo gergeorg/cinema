@@ -12,7 +12,7 @@
 					<div class="modal-body">
 						<img
 							class="modal-logo"
-							src="@/assets/small_logo.png"
+							src="@/assets/img/small_logo.png"
 							alt="Логотип онлайн-кинотеатра 'Маруся'"
 						/>
 

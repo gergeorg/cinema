@@ -28,7 +28,7 @@
 	import { RouterLink } from 'vue-router'
 	import { storeToRefs } from 'pinia'
 	import { useMoviesStore } from '@/stores/useMoviesStore'
-	import placeholder from '@/assets/no-poster.png'
+	import placeholder from '@/assets/img/no-poster.png'
 	import TheError from '@/components/TheError.vue'
 
 	const moviesStore = useMoviesStore()
@@ -47,7 +47,7 @@
 
 	const getPoster = (genre: string) => {
 		try {
-			return new URL(`../assets/genres/${genre}.jpg`, import.meta.url).href
+			return new URL(`../assets/img/genres/${genre}.jpg`, import.meta.url).href
 		} catch {
 			return placeholder
 		}
@@ -121,6 +121,7 @@
 
 			&__img {
 				height: 220px;
+				width: 100%;
 				border-radius: 24px;
 				background-color: #616161;
 

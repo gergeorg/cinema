@@ -86,7 +86,7 @@
 	import TheRating from './ui/TheRating.vue'
 	import BaseButton from './ui/BaseButton.vue'
 	import TopFilmSkeleton from './TopFilmSkeleton.vue'
-	import placeholder from '@/assets/no-poster.png'
+	import placeholder from '@/assets/img/no-poster.png'
 	import TheError from './TheError.vue'
 
 	const props = defineProps<{ movieId?: string }>()

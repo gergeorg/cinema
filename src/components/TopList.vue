@@ -91,6 +91,10 @@
 			grid-template-columns: repeat(5, 1fr);
 			gap: 64px 40px;
 
+			@media (max-width: 1366px) {
+				grid-template-columns: repeat(4, 1fr);
+			}
+
 			@media (max-width: 1200px) {
 				display: none;
 			}
