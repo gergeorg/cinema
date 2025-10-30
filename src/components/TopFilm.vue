@@ -65,6 +65,7 @@
 			</div>
 
 			<div class="top-film__poster">
+				<div class="top-film__overlay"></div>
 				<img
 					:src="movie.backdropUrl ?? placeholder"
 					:alt="movie.title"
@@ -159,6 +160,12 @@
 	.top-film {
 		padding-top: 32px;
 		padding-bottom: 40px;
+		height: 584px;
+		position: relative;
+
+		@media (max-width: 1024px) {
+			height: auto;
+		}
 
 		@media (max-width: 640px) {
 			padding-top: 0;
@@ -166,19 +173,30 @@
 		}
 
 		&__container {
-			display: grid;
-			grid-template-columns: minmax(0, 580px) minmax(0, 680px);
+			// position: relative;
+			// display: flex;
+
+			// display: grid;
+			// grid-template-columns: minmax(0, 580px) minmax(0, 680px);
 			align-items: center;
 			gap: 20px;
+			height: 100%;
 
-			@media (max-width: 1200px) {
+			@media (max-width: 1024px) {
 				display: flex;
 				flex-direction: column;
 			}
 		}
 
 		&__info {
+			max-width: 50%;
+
 			@media (max-width: 1200px) {
+				max-width: 60%;
+			}
+
+			@media (max-width: 1024px) {
+				max-width: 100%;
 				order: 2;
 			}
 		}
@@ -226,6 +244,14 @@
 			font-size: 24px;
 			color: var(--color-white-07);
 
+			display: -webkit-box; /* создаем flex-контейнер для вебкита */
+			-webkit-box-orient: vertical; /* вертикальная ориентация */
+			overflow: hidden; /* скрываем лишний текст */
+			text-overflow: ellipsis; /* добавляем "..." */
+			-webkit-line-clamp: 5; /* показываем только 3 строки */
+			line-height: 1.5em; /* высота строки */
+			max-height: calc(1.5em * 5); /* высота блока равна 3 строкам */
+
 			@media (max-width: 640px) {
 				font-size: 18px;
 				margin-bottom: 32px;
@@ -255,19 +281,53 @@
 			}
 		}
 
-		&__poster {
-			max-width: 680px;
+		&__overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(
+				90deg,
+				#0a0b0b 0%,
+				rgba(10, 11, 11, 0.7) 25%,
+				rgba(10, 11, 11, 0.3) 50%,
+				rgba(10, 11, 11, 0) 100%
+			);
+			pointer-events: none;
 
-			@media (max-width: 1200px) {
+			@media (max-width: 1024px) {
+				display: none;
+			}
+		}
+
+		&__poster {
+			position: absolute;
+			top: -32px;
+			bottom: -40px;
+			right: 0;
+			// right: -50px;
+			width: 900px;
+			height: 100%;
+			z-index: -1;
+
+			@media (max-width: 1024px) {
+				position: static;
 				max-width: 100%;
+				max-height: 552px;
 				order: 1;
 			}
 		}
 
 		&__img {
 			width: 100%;
-			max-height: 552px;
-			border-radius: 16px;
+			height: 100%;
+			// max-height: 552px;
+			// border-radius: 16px;
+
+			@media (max-width: 1024px) {
+				border-radius: 16px;
+			}
 
 			@media (max-width: 640px) {
 				max-height: 338px;

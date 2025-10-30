@@ -2,7 +2,7 @@
 	<header class="header">
 		<div class="header__container container">
 			<RouterLink class="header__logo" to="/">
-				<img src="@/assets/img/logo.png" alt="Логотип онлайн-кинотеатра 'Маруся'" />
+				<img src="@/assets/img/logo.svg" alt="Логотип онлайн-кинотеатра 'Маруся'" />
 			</RouterLink>
 
 			<div class="header__controls">
@@ -32,24 +32,26 @@
 			</div>
 		</div>
 
-		<LoginModal
-			:isOpen="isLoginOpen"
-			@close="isLoginOpen = false"
-			@open-register="switchToRegister"
-		/>
+		<Teleport to="body">
+			<LoginModal
+				:isOpen="isLoginOpen"
+				@close="isLoginOpen = false"
+				@open-register="switchToRegister"
+			/>
 
-		<RegisterModal
-			:isOpen="isRegisterOpen"
-			@close="isRegisterOpen = false"
-			@open-login="switchToLogin"
-			@register-success="showSuccessModal"
-		/>
+			<RegisterModal
+				:isOpen="isRegisterOpen"
+				@close="isRegisterOpen = false"
+				@open-login="switchToLogin"
+				@register-success="showSuccessModal"
+			/>
 
-		<ModalSuccess
-			:isOpen="isSuccessOpen"
-			@close="isSuccessOpen = false"
-			@open-login="switchToLogin"
-		/>
+			<ModalSuccess
+				:isOpen="isSuccessOpen"
+				@close="isSuccessOpen = false"
+				@open-login="switchToLogin"
+			/>
+		</Teleport>
 	</header>
 </template>
 
@@ -135,6 +137,10 @@
 		padding: 24px 0;
 		z-index: 1000;
 
+		backdrop-filter: blur(20px);
+		isolation: isolate;
+		background: rgba(0, 0, 0, 0.5);
+
 		@media (max-width: 768px) {
 			padding: 16px 0;
 		}
@@ -165,7 +171,7 @@
 		&__logo {
 			img {
 				@media (max-width: 768px) {
-					width: 81px;
+					width: 136px;
 					height: 18px;
 				}
 			}

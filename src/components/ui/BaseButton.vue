@@ -99,14 +99,14 @@
 			border-color 0.3s ease-in-out;
 
 		&--blue {
-			border: 1px solid #67a5eb;
-			background-color: #67a5eb;
+			border: 1px solid var(--color-violet);
+			background-color: var(--color-violet);
 
 			&:hover,
 			&:focus-visible {
-				border-color: #45526e;
-				background-color: #45526e;
-				color: var(--color-white-05);
+				border-color: var(--color-violet-hovered);
+				background-color: var(--color-violet-hovered);
+				color: var(--color-white);
 			}
 
 			&:focus-visible {
